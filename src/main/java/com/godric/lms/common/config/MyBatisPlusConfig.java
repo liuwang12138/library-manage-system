@@ -10,8 +10,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author Godric
  * MyBatis Plus 内置分页插件
  */
-@EnableTransactionManagement
 @Configuration
+@EnableTransactionManagement
 @MapperScan("com.godric.lms.dao.*")
 public class MyBatisPlusConfig {
 

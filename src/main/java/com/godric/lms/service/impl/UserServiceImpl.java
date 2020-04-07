@@ -1,6 +1,8 @@
 package com.godric.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.po.UserPO;
 import com.godric.lms.dao.UserDao;
@@ -69,6 +71,17 @@ public class UserServiceImpl implements UserService {
             return ResultMessage.fail("用户名或密码错误！");
         }
         return ResultMessage.success(userPo);
+    }
 
+    @Override
+    public IPage<UserPO> listAllUsers(Integer pageNum, Integer pageSize) {
+        QueryWrapper<UserPO> queryWrapper = new QueryWrapper<>();
+        IPage<UserPO> page = new Page<>(pageNum, pageSize);
+        return userDao.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    public void delete(Integer id) {
+        userDao.deleteById(id);
     }
 }

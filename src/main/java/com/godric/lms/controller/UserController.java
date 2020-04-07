@@ -1,5 +1,6 @@
 package com.godric.lms.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.po.UserPO;
 import com.godric.lms.service.UserService;
@@ -48,6 +49,21 @@ public class UserController {
         }
         request.getSession().setAttribute("user", resultMessage.getData());
         return ResultMessage.success("登陆成功！");
+    }
+
+    @PostMapping("listAll")
+    @ResponseBody
+    public ResultMessage<IPage<UserPO>> listAll(@RequestParam Integer pageNum,
+                                                @RequestParam Integer pageSize) {
+        IPage<UserPO> userPos = userService.listAllUsers(pageNum, pageSize);
+        return ResultMessage.success(userPos);
+    }
+
+    @PostMapping("delete")
+    @ResponseBody
+    public ResultMessage<Void> delete(@RequestParam Integer id) {
+        userService.delete(id);
+        return ResultMessage.success();
     }
 
 
