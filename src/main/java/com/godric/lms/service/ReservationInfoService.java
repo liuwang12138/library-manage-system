@@ -10,11 +10,19 @@ import java.util.List;
 
 public interface ReservationInfoService {
 
-    void insertReservation(Date reservationDate, Integer timeQuantum, Integer seatId) throws Exception;
+    ResultMessage<Void> insertReservation(LocalDate reservationDate, Integer timeQuantum, Integer seatId) throws Exception;
 
     boolean cancelReservation(Integer reservationId);
 
-    ResultMessage<List<ReservationInfoDTO>> getReservationInfoByCondition(Integer userId, Date startDate, Date endDate, Integer timeQuantum, Integer pageNum, Integer pageSize);
+    ResultMessage<List<ReservationInfoDTO>> getReservationInfoByCondition(Integer userId,
+                                                                          LocalDate startDate,
+                                                                          LocalDate endDate,
+                                                                          Integer timeQuantum,
+                                                                          Integer seatId,
+                                                                          Integer pageNum,
+                                                                          Integer pageSize);
 
     ResultMessage<List<ReservationInfoDTO>> getMyReservationList(Integer pageNum, Integer pageSize) throws Exception;
+
+    Integer getMyId() throws Exception;
 }

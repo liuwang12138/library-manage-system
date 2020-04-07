@@ -12,14 +12,16 @@
             s.`room_num` as roomNum,
             s.`seat_num` as seatNum,
             r.`reservation_date` as reservationDate,
-            case `time_quantum` when 1 then '8:00-12:00' when 2 then '12:00-17:00' when 3 then '17:00-22:00' end case as timeQuantum
+            case `time_quantum` when 1 then '8:00-12:00' when 2 then '12:00-17:00' when 3 then '17:00-22:00' end as timeQuantum
         from `reservation_info` r
         left join `user` u on r.`user_id` = u.`id`
         left join `seat` s on r.`seat_id` = s.`id`
         <where>
             <include refid="queryCondition" />
         </where>
-        limit #{startNum}, #{pageSize}
+        <if test="startNum != null and pageSize != null">
+            limit #{startNum}, #{pageSize}
+        </if>
     </select>
     <select id="countReservationInfoByCondition" resultType="java.lang.Integer">
         select
@@ -40,6 +42,9 @@
         </if>
         <if test="timeQuantum != null">
             and r.`time_quantum` = #{timeQuantum}
+        </if>
+        <if test="seatId != null">
+            and r.`seat_id` = #{seatId}
         </if>
     </sql>
 </mapper>

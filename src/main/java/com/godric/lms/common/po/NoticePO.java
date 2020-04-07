@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.experimental.Tolerate;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  * @author Godric
@@ -34,11 +33,11 @@ public class NoticePO {
 
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @Tolerate
     public NoticePO() {}

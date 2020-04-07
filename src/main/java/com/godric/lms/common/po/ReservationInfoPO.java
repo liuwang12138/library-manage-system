@@ -29,7 +29,7 @@ public class ReservationInfoPO {
 
     @TableField("reservation_date")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
-    private Date reservationDate;
+    private LocalDate reservationDate;
 
     @TableField("time_quantum")
     private Integer timeQuantum;
@@ -37,13 +37,16 @@ public class ReservationInfoPO {
     @TableField("seat_id")
     private Integer seatId;
 
+    @TableField("reservation_id")
+    private Integer reservationId;
+
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createTime;
+    private LocalDateTime createTime;
 
     @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     @Tolerate
     public ReservationInfoPO() {}

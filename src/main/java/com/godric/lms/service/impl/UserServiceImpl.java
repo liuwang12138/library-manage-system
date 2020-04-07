@@ -99,4 +99,14 @@ public class UserServiceImpl implements UserService {
         UserPO user = UserPO.builder().username(username).password(password).id(id).build();
         userDao.updateById(user);
     }
+
+    @Override
+    public ResultMessage<Void> updatePassword(String username, String oldPassword, String newPassword) {
+        ResultMessage<UserPO> loginResult = login(username, oldPassword);
+        if (!loginResult.isSuccess()) {
+            return ResultMessage.fail(loginResult.getMessage());
+        }
+        updateUserById(null, newPassword, loginResult.getData().getId());
+        return ResultMessage.success();
+    }
 }

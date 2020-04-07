@@ -1,10 +1,7 @@
 package com.godric.lms.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
-import com.godric.lms.common.po.ReservationInfoPO;
 import com.godric.lms.service.ReservationInfoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -33,16 +30,15 @@ public class ReservationInfoController {
 
     @ResponseBody
     @PostMapping("insert")
-    public ResultMessage<Void> insertReservationInfo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date reservationDate,
+    public ResultMessage<Void> insertReservationInfo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate reservationDate,
                                                      @RequestParam Integer timeQuantum,
                                                      @RequestParam Integer seatId) {
         try {
-            reservationInfoService.insertReservation(reservationDate, timeQuantum, seatId);
+            return reservationInfoService.insertReservation(reservationDate, timeQuantum, seatId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMessage.fail(e.getMessage());
         }
-        return ResultMessage.success();
     }
 
     @ResponseBody
@@ -58,7 +54,7 @@ public class ReservationInfoController {
     @ResponseBody
     @PostMapping("getMyReservationInfo")
     public ResultMessage<List<ReservationInfoDTO>> getMyReservationInfo(@RequestParam Integer pageNum,
-                                                                         @RequestParam Integer pageSize) {
+                                                                        @RequestParam Integer pageSize) {
         try {
             return reservationInfoService.getMyReservationList(pageNum, pageSize);
         } catch (Exception e) {
@@ -69,12 +65,13 @@ public class ReservationInfoController {
     @ResponseBody
     @PostMapping("getReservationInfoByCondition")
     public ResultMessage<List<ReservationInfoDTO>> getReservationInfoByCondition(@RequestParam Integer userId,
-                                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-                                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+                                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                                                                  @RequestParam Integer timeQuantum,
+                                                                                 @RequestParam Integer seatId,
                                                                                  @RequestParam Integer pageNum,
                                                                                  @RequestParam Integer pageSize) {
-        return reservationInfoService.getReservationInfoByCondition(userId, startDate, endDate, timeQuantum, pageNum, pageSize);
+        return reservationInfoService.getReservationInfoByCondition(userId, startDate, endDate, timeQuantum, seatId, pageNum, pageSize);
     }
 
 }

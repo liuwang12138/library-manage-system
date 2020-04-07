@@ -17,4 +17,6 @@ public interface UserService {
     UserPO getById(Integer id);
 
     void updateUserById(String username, String password, Integer id);
+
+    ResultMessage<Void> updatePassword(String username, String oldPassword, String newPassword);
 }

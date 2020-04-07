@@ -7,10 +7,7 @@ import com.godric.lms.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
@@ -18,18 +15,18 @@ import java.util.Objects;
 /**
  * @author Godric
  */
+@Slf4j
 @Controller
 @RequestMapping("user")
-@Slf4j
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @PostMapping("register")
     @ResponseBody
-    public ResultMessage<Void> register(@RequestParam("username") String username,
-                                        @RequestParam("password") String password) {
+    @PostMapping("register")
+    public ResultMessage<Void> register(@RequestParam String username,
+                                        @RequestParam String password) {
         log.info("username = " + username);
         log.info("password = " + password);
         ResultMessage<UserPO> resultMessage = userService.register(username, password);
@@ -39,25 +36,29 @@ public class UserController {
         return ResultMessage.fail("注册失败, 失败原因为：" + resultMessage.getMessage() + "\n 请调整后重试！");
     }
 
-    @PostMapping("login")
-    @ResponseBody
-    public ResultMessage<Void> login(@RequestParam("username") String username,
-                                     @RequestParam("password") String password,
-                                     HttpServletRequest request) {
-        ResultMessage<UserPO> resultMessage = userService.login(username, password);
-        if (!resultMessage.isSuccess()) {
-            return ResultMessage.fail(resultMessage.getMessage());
-        }
-        request.getSession().setAttribute("user", resultMessage.getData());
-        return ResultMessage.success("登陆成功！");
-    }
-
     @PostMapping("listAll")
     @ResponseBody
     public ResultMessage<IPage<UserPO>> listAll(@RequestParam Integer pageNum,
                                                 @RequestParam Integer pageSize) {
         IPage<UserPO> userPos = userService.listAllUsers(pageNum, pageSize);
         return ResultMessage.success(userPos);
+    }
+
+    @ResponseBody
+    @PostMapping("login")
+    public ResultMessage<Void> login(@RequestParam String username,
+                                     @RequestParam String password,
+                                     HttpServletRequest request) {
+
+        log.info("username = " + username);
+        log.info("password = " + password);
+
+        ResultMessage<UserPO> resultMessage = userService.login(username, password);
+        if (!resultMessage.isSuccess()) {
+            return ResultMessage.fail(resultMessage.getMessage());
+        }
+        request.getSession().setAttribute("user", resultMessage.getData());
+        return ResultMessage.success("登陆成功！");
     }
 
     @PostMapping("delete")
@@ -79,12 +80,19 @@ public class UserController {
 
     @PostMapping("updateById")
     @ResponseBody
-    public ResultMessage<Void> login(@RequestParam("username") String username,
-                                     @RequestParam("password") String password,
-                                     @RequestParam("id") Integer id) {
+    public ResultMessage<Void> updateById(@RequestParam String username,
+                                          @RequestParam String password,
+                                          @RequestParam Integer id) {
         userService.updateUserById(username, password, id);
         return ResultMessage.success();
     }
 
+    @PostMapping("用户修改密码")
+    @ResponseBody
+    public ResultMessage<Void> updatePassword(@RequestParam String username,
+                                              @RequestParam String oldPassword,
+                                              @RequestParam String newPassword) {
+        return userService.updatePassword(username, oldPassword, newPassword);
+    }
 
 }

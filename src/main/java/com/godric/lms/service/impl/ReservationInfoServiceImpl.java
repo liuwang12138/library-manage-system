@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +32,16 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     HttpServletRequest request;
 
     @Override
-    public void insertReservation(Date reservationDate, Integer timeQuantum, Integer seatId) throws Exception {
+    public ResultMessage<Void> insertReservation(LocalDate reservationDate, Integer timeQuantum, Integer seatId) throws Exception {
+
+        if (reservationDate.isBefore(LocalDate.now())) {
+            return ResultMessage.fail("您预约的时间早于当前时间，预约失败");
+        }
+
+        if (reservationInfoDao.countReservationInfoByCondition(null, reservationDate, reservationDate, timeQuantum, seatId) > 0) {
+            return ResultMessage.fail("您预约的座位已被预约，请重新挑选座位");
+        }
+
         Integer userId = getMyId();
         ReservationInfoPO info = ReservationInfoPO.builder()
                                             .reservationDate(reservationDate)
@@ -39,6 +49,7 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
                                             .seatId(seatId)
                                             .userId(userId).build();
         reservationInfoDao.insert(info);
+        return ResultMessage.success();
     }
 
     @Override
@@ -47,10 +58,13 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     }
 
     @Override
-    public ResultMessage<List<ReservationInfoDTO>> getReservationInfoByCondition(Integer userId, Date startDate, Date endDate, Integer timeQuantum, Integer pageNum, Integer pageSize) {
-        Integer startNum = (pageNum - 1) * pageSize;
-        List<ReservationInfoDTO> reservationInfoList = reservationInfoDao.getReservationInfoByCondition(userId, startDate, endDate, timeQuantum, startNum, pageSize);
-        Integer count = reservationInfoDao.countReservationInfoByCondition(userId, startDate, endDate, timeQuantum);
+    public ResultMessage<List<ReservationInfoDTO>> getReservationInfoByCondition(Integer userId, LocalDate startDate, LocalDate endDate, Integer timeQuantum, Integer seatId, Integer pageNum, Integer pageSize) {
+        Integer startNum = null;
+        if (pageNum != null && pageSize != null) {
+            startNum = (pageNum - 1) * pageSize;
+        }
+        List<ReservationInfoDTO> reservationInfoList = reservationInfoDao.getReservationInfoByCondition(userId, startDate, endDate, timeQuantum, seatId, startNum, pageSize);
+        Integer count = reservationInfoDao.countReservationInfoByCondition(userId, startDate, endDate, timeQuantum, seatId);
 
         return ResultMessage.success(reservationInfoList, count);
     }
@@ -58,10 +72,12 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     @Override
     public ResultMessage<List<ReservationInfoDTO>> getMyReservationList(Integer pageNum, Integer pageSize) throws Exception {
         Integer userId = getMyId();
-        return getReservationInfoByCondition(userId, null, null, null, pageNum, pageSize);
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        return getReservationInfoByCondition(userId, null, null, null, null, pageNum, pageSize);
     }
 
-    private Integer getMyId() throws Exception {
+    public Integer getMyId() throws Exception {
         Object user = request.getSession().getAttribute("user");
         if (Objects.isNull(user)) {
             throw new Exception("获取用户信息为空");
