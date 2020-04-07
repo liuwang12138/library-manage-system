@@ -14,6 +14,7 @@ public class ResultMessage<T> implements Serializable {
     private Integer code;
     private String message;
     private T data;
+    private Integer count;
 
     public static final int SUCCESS_CODE = 201;
     public static final int FAIL_CODE = 205;
@@ -35,6 +36,14 @@ public class ResultMessage<T> implements Serializable {
         ResultMessage<T> resultMessage = new ResultMessage<>();
         resultMessage.code = SUCCESS_CODE;
         resultMessage.data = data;
+        return resultMessage;
+    }
+
+    public static<T> ResultMessage<T> success(T data, Integer count) {
+        ResultMessage<T> resultMessage = new ResultMessage<>();
+        resultMessage.code = SUCCESS_CODE;
+        resultMessage.data = data;
+        resultMessage.count = count;
         return resultMessage;
     }
 

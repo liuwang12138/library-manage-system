@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godric.lms.dao.ReservationInfoDao">
+
+    <select id="getReservationInfoByCondition" resultType="com.godric.lms.common.dto.ReservationInfoDTO">
+        select
+            r.`id` as reservationId,
+            u.`username` as username,
+            s.`storey` as storey,
+            s.`room_num` as roomNum,
+            s.`seat_num` as seatNum,
+            r.`reservation_date` as reservationDate,
+            case `time_quantum` when 1 then '8:00-12:00' when 2 then '12:00-17:00' when 3 then '17:00-22:00' end case as timeQuantum
+        from `reservation_info` r
+        left join `user` u on r.`user_id` = u.`id`
+        left join `seat` s on r.`seat_id` = s.`id`
+        <where>
+            <include refid="queryCondition" />
+        </where>
+        limit #{startNum}, #{pageSize}
+    </select>
+    <select id="countReservationInfoByCondition" resultType="java.lang.Integer">
+        select
+            count(1)
+        from reservation_info r
+        <where>
+            <include refid="queryCondition" />
+        </where>
+    </select>
+
+    <sql id="queryCondition">
+        <if test="userId != null">
+            r.`user_id` = #{userId}
+        </if>
+        <if test="startDate != null and endDate != null">
+            and r.`reservation_date` &gt;= #{startDate}
+            and r.`reservation_date` &lt;= #{endDate}
+        </if>
+        <if test="timeQuantum != null">
+            and r.`time_quantum` = #{timeQuantum}
+        </if>
+    </sql>
+</mapper>

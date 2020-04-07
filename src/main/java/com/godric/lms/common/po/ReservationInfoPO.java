@@ -5,15 +5,19 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
+import lombok.experimental.Tolerate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * @author Godric
  */
 @Data
+@Builder
 @TableName("reservation_info")
 public class ReservationInfoPO {
 
@@ -24,7 +28,8 @@ public class ReservationInfoPO {
     private Integer userId;
 
     @TableField("reservation_date")
-    private LocalDate reservationDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date reservationDate;
 
     @TableField("time_quantum")
     private Integer timeQuantum;
@@ -34,10 +39,13 @@ public class ReservationInfoPO {
 
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private LocalDateTime updateTime;
+    private Date updateTime;
+
+    @Tolerate
+    public ReservationInfoPO() {}
 
 }
