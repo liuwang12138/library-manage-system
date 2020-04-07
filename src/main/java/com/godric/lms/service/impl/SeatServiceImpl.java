@@ -33,7 +33,33 @@ public class SeatServiceImpl implements SeatService {
         if (Objects.nonNull(seatNum)) {
             queryWrapper.eq("seat_num", seatNum);
         }
+        queryWrapper.orderByAsc("id");
         IPage<SeatPO> page = new Page<>(pageNum, pageSize);
         return seatDao.selectPage(page, queryWrapper);
+    }
+
+    @Override
+    public void insertSeat(Integer storey, String roomNum, Integer seatNum) {
+        SeatPO seatPo = SeatPO.builder().storey(storey).roomNum(roomNum).seatNum(seatNum).build();
+        seatDao.insert(seatPo);
+    }
+
+    @Override
+    public void deleteSeat(Integer id) {
+        seatDao.deleteById(id);
+    }
+
+    @Override
+    public SeatPO getById(Integer id) {
+        return seatDao.selectById(id);
+    }
+
+    @Override
+    public void updateSeatById(Integer storey, String roomNum, Integer seatNum, Integer id) {
+        if (Objects.isNull(storey) && org.springframework.util.StringUtils.isEmpty(roomNum) && Objects.isNull(seatNum)) {
+            return;
+        }
+        SeatPO seat = SeatPO.builder().storey(storey).roomNum(roomNum).seatNum(seatNum).id(id).build();
+        seatDao.updateById(seat);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * @author Godric
@@ -63,6 +64,25 @@ public class UserController {
     @ResponseBody
     public ResultMessage<Void> delete(@RequestParam Integer id) {
         userService.delete(id);
+        return ResultMessage.success();
+    }
+
+    @PostMapping("getById")
+    @ResponseBody
+    public ResultMessage<UserPO> getById(@RequestParam Integer id) {
+        UserPO byId = userService.getById(id);
+        if (Objects.isNull(byId)) {
+            return ResultMessage.fail("找不到id对应的用户！");
+        }
+        return ResultMessage.success(byId);
+    }
+
+    @PostMapping("updateById")
+    @ResponseBody
+    public ResultMessage<Void> login(@RequestParam("username") String username,
+                                     @RequestParam("password") String password,
+                                     @RequestParam("id") Integer id) {
+        userService.updateUserById(username, password, id);
         return ResultMessage.success();
     }
 

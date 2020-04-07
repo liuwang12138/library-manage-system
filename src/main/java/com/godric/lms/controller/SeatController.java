@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Objects;
+
 /**
  * @author Godric
  */
@@ -21,6 +23,42 @@ public class SeatController {
 
     @Autowired
     SeatService seatService;
+
+    @ResponseBody
+    @PostMapping("insert")
+    public ResultMessage<Void> insert(@RequestParam Integer storey,
+                                      @RequestParam String roomNum,
+                                      @RequestParam Integer seatNum) {
+        seatService.insertSeat(storey, roomNum, seatNum);
+        return ResultMessage.success();
+    }
+
+    @ResponseBody
+    @PostMapping("delete")
+    public ResultMessage<Void> delete(@RequestParam Integer id) {
+        seatService.deleteSeat(id);
+        return ResultMessage.success();
+    }
+
+    @ResponseBody
+    @PostMapping("updateById")
+    public ResultMessage<Void> delete(@RequestParam Integer id,
+                                      @RequestParam(required = false) Integer storey,
+                                      @RequestParam(required = false) String roomNum,
+                                      @RequestParam(required = false) Integer seatNum) {
+        seatService.updateSeatById(storey, roomNum, seatNum, id);
+        return ResultMessage.success();
+    }
+
+    @ResponseBody
+    @PostMapping("getById")
+    public ResultMessage<SeatPO> getById(@RequestParam Integer id) {
+        SeatPO po = seatService.getById(id);
+        if (Objects.isNull(po)) {
+            return ResultMessage.fail("根据id找不到对应的座位");
+        }
+        return ResultMessage.success(po);
+    }
 
     @ResponseBody
     @PostMapping("listByCondition")

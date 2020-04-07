@@ -11,4 +11,11 @@ public interface SeatService {
 
     IPage<SeatPO> listByCondition(Integer storey, String roomNum, Integer seatNum, Integer pageNum, Integer pageSize);
 
+    void insertSeat(Integer storey, String roomNum, Integer seatNum);
+
+    void deleteSeat(Integer id);
+
+    SeatPO getById(Integer id);
+
+    void updateSeatById(Integer storey, String roomNum, Integer seatNum, Integer id);
 }

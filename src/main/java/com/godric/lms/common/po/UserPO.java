@@ -31,12 +31,6 @@ public class UserPO {
     @TableField("password")
     private String password;
 
-    @TableField("blacklist")
-    private boolean blacklist;
-
-    @TableField("blacklist_deadline")
-    private LocalDateTime blacklistDeadline;
-
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;

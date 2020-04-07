@@ -9,6 +9,7 @@ import com.godric.lms.dao.UserDao;
 import com.godric.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,5 +84,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(Integer id) {
         userDao.deleteById(id);
+    }
+
+    @Override
+    public UserPO getById(Integer id) {
+        return userDao.selectById(id);
+    }
+
+    @Override
+    public void updateUserById(String username, String password, Integer id) {
+        if (StringUtils.isEmpty(username) && StringUtils.isEmpty(password)) {
+            return;
+        }
+        UserPO user = UserPO.builder().username(username).password(password).id(id).build();
+        userDao.updateById(user);
     }
 }

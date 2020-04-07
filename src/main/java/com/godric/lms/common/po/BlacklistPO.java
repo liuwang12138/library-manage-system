@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Tolerate;
 
 import java.time.LocalDateTime;
 
@@ -16,20 +15,17 @@ import java.time.LocalDateTime;
  */
 @Data
 @Builder
-@TableName("seat")
-public class SeatPO {
+@TableName("blacklist")
+public class BlacklistPO {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @TableField("storey")
-    private Integer storey;
+    @TableField("user_id")
+    private Integer userId;
 
-    @TableField("room_num")
-    private String roomNum;
-
-    @TableField("seat_num")
-    private Integer seatNum;
+    @TableField("deadline")
+    private LocalDateTime deadline;
 
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -38,8 +34,5 @@ public class SeatPO {
     @TableField("update_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateTime;
-
-    @Tolerate
-    public SeatPO() {}
 
 }

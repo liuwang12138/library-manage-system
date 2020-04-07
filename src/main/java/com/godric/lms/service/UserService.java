@@ -13,4 +13,8 @@ public interface UserService {
     IPage<UserPO> listAllUsers(Integer pageNum, Integer pageSize);
 
     void delete(Integer id);
+
+    UserPO getById(Integer id);
+
+    void updateUserById(String username, String password, Integer id);
 }
