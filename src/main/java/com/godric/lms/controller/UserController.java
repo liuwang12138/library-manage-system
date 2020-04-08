@@ -26,10 +26,12 @@ public class UserController {
     @ResponseBody
     @PostMapping("register")
     public ResultMessage<Void> register(@RequestParam String username,
-                                        @RequestParam String password) {
+                                        @RequestParam String password,
+                                        @RequestParam String realName,
+                                        @RequestParam String phone) {
         log.info("username = " + username);
         log.info("password = " + password);
-        ResultMessage<UserPO> resultMessage = userService.register(username, password);
+        ResultMessage<UserPO> resultMessage = userService.register(username, password, realName, phone);
         if (resultMessage.isSuccess()) {
             return ResultMessage.success("注册成功，您的卡号为" + resultMessage.getData().getCardNum() + ", 请妥善保管！");
         }

@@ -14,6 +14,8 @@ public class ReservationInfoDTO {
 
     private Integer reservationId;
 
+    private Integer userId;
+
     private String username;
 
     private Integer storey;

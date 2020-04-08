@@ -6,7 +6,7 @@ import com.godric.lms.common.po.UserPO;
 
 public interface UserService {
 
-    ResultMessage<UserPO> register(String username, String password);
+    ResultMessage<UserPO> register(String username, String password, String realName, String phone);
 
     ResultMessage<UserPO> login(String username, String password);
 

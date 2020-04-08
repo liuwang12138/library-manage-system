@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.godric.lms.common.dto.ResultMessage;
+import com.godric.lms.common.enums.UserTypeEnum;
 import com.godric.lms.common.po.UserPO;
 import com.godric.lms.dao.UserDao;
 import com.godric.lms.service.UserService;
@@ -31,14 +32,21 @@ public class UserServiceImpl implements UserService {
     private Random random = new Random();
 
     @Override
-    public ResultMessage<UserPO> register(String username, String password) {
+    public ResultMessage<UserPO> register(String username, String password, String realName, String phone) {
         QueryWrapper<UserPO> queryWrapper = new QueryWrapper<UserPO>().eq("username", username);
         List<UserPO> userPos = userDao.selectList(queryWrapper);
         if (!userPos.isEmpty()) {
             return ResultMessage.fail("已存在相同的username！");
         }
 
-        UserPO userPo = UserPO.builder().username(username).password(password).cardNum(generateCardNum()).build();
+        UserPO userPo = UserPO.builder()
+                            .username(username)
+                            .password(password)
+                            .realName(realName)
+                            .phone(phone)
+                            .type(UserTypeEnum.USER.getCode())
+                            .cardNum(generateCardNum())
+                            .build();
         userDao.insert(userPo);
         return ResultMessage.success(userPo);
     }

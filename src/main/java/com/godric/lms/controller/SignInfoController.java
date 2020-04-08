@@ -23,5 +23,9 @@ public class SignInfoController {
         return signInfoService.insertSignInfo(type, reservationId);
     }
 
+    @RequestMapping("approve")
+    public ResultMessage<Void> approve(Integer signId) {
+        return signInfoService.approve(signId);
+    }
 
 }

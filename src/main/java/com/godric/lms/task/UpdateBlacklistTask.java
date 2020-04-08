@@ -16,12 +16,10 @@ public class UpdateBlacklistTask {
     @Autowired
     BlacklistService blacklistService;
 
-//    @Scheduled(cron = "*/5 * * * * ?")
-//    public void updateBlacklist() {
-////        System.out.println("updateBlacklist...");
-////        blacklistService.scanBreakRuleList();
-//    }
-//
+    @Scheduled(cron = "*/5 * * * * ?")
+    public void updateBlacklist() {
+        blacklistService.scanBreakRuleList();
+    }
 //    @Scheduled(cron = "*/2 * * * * ?")
 //    public void updateBlacklist2() {
 //    }

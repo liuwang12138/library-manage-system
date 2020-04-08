@@ -72,8 +72,6 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     @Override
     public ResultMessage<List<ReservationInfoDTO>> getMyReservationList(Integer pageNum, Integer pageSize) throws Exception {
         Integer userId = getMyId();
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
         return getReservationInfoByCondition(userId, null, null, null, null, pageNum, pageSize);
     }
 

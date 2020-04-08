@@ -8,6 +8,7 @@
         select
             r.`id` as reservationId,
             u.`username` as username,
+            u.`id` as userId,
             s.`storey` as storey,
             s.`room_num` as roomNum,
             s.`seat_num` as seatNum,

@@ -32,6 +32,15 @@ public class UserPO {
     @TableField("password")
     private String password;
 
+    @TableField("real_name")
+    private String realName;
+
+    @TableField("phone")
+    private String phone;
+
+    @TableField("type")
+    private Integer type;
+
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;
