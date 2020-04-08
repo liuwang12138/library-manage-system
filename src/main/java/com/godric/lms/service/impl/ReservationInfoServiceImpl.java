@@ -8,6 +8,7 @@ import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.po.ReservationInfoPO;
 import com.godric.lms.common.po.UserPO;
 import com.godric.lms.dao.ReservationInfoDao;
+import com.godric.lms.service.BlacklistService;
 import com.godric.lms.service.ReservationInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,20 +30,27 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     ReservationInfoDao reservationInfoDao;
 
     @Autowired
+    BlacklistService blacklistService;
+
+    @Autowired
     HttpServletRequest request;
 
     @Override
     public ResultMessage<Void> insertReservation(LocalDate reservationDate, Integer timeQuantum, Integer seatId) throws Exception {
 
         if (reservationDate.isBefore(LocalDate.now())) {
-            return ResultMessage.fail("您预约的时间早于当前时间，预约失败");
+            return ResultMessage.fail("您预约的时间早于当前时间，预约失败！");
         }
 
         if (reservationInfoDao.countReservationInfoByCondition(null, reservationDate, reservationDate, timeQuantum, seatId) > 0) {
-            return ResultMessage.fail("您预约的座位已被预约，请重新挑选座位");
+            return ResultMessage.fail("您预约的座位已被预约，请重新挑选座位！");
         }
 
         Integer userId = getMyId();
+        if (blacklistService.inBlacklist(userId)) {
+            return ResultMessage.fail("您在黑名单列表里，暂时不能预约座位！");
+        }
+
         ReservationInfoPO info = ReservationInfoPO.builder()
                                             .reservationDate(reservationDate)
                                             .timeQuantum(timeQuantum)

@@ -1,5 +1,6 @@
 package com.godric.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.enums.SignTypeEnum;
@@ -60,5 +61,14 @@ public class BlacklistServiceImpl implements BlacklistService {
     private void addUserToBlacklist(Integer userId) {
         BlacklistPO po = BlacklistPO.builder().userId(userId).deadline(LocalDateTime.now().plusDays(3)).build();
         blacklistDao.insert(po);
+    }
+
+    @Override
+    public boolean inBlacklist(Integer userId) {
+        QueryWrapper<BlacklistPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId)
+                    .gt("deadline", LocalDateTime.now());
+        List<BlacklistPO> blacklistPos = blacklistDao.selectList(queryWrapper);
+        return !blacklistPos.isEmpty();
     }
 }
