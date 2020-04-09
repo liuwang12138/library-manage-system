@@ -1,0 +1,31 @@
+body{
+	padding-top:50px;
+}
+.welcome{
+	width: 50%;
+	height: 30%;
+	background-color: hsla(0,0,1%,0.4); 
+}
+.sda{
+	margin-top: 10px;
+}
+.feature{
+	padding: 30px 0;
+}
+.feature-heading{
+	font-size: 50px;
+	margin-top: 120px;
+	color: #2a6496;
+}
+hr{
+	margin: 30px 0;
+}
+footer{
+	margin:40px 70px;
+}
+a:hover{
+	color: #286090;
+}
+.glyphicon{
+	padding-right: 4px;
+}

@@ -18,6 +18,15 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <!-- 站点地址过滤器 -->
+  <filter>
+    <filter-name>constantsFilter</filter-name>
+    <filter-class>com.godric.lms.common.filter.ConstantsFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>constantsFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 
   <!-- 配置DispatcherServlet -->
   <servlet>
