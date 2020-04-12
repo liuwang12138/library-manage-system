@@ -52,10 +52,8 @@
 
                 </li>
             </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-
-
+        </div>
+    </div>
 </nav>
 <!-- 登录 -->
 <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="modal-label"
