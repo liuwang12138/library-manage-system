@@ -35,8 +35,7 @@
       </tr>
     </table>
 
-    <script src="${staticWebsite}js/jquery-1.11.1.min.js"></script>
-    <script src="${staticWebsite}js/bootstrap.min.js"></script>
+    <jsp:include page="../common/user_footer.jsp" />
     <script>
     $(function () {
         $('#ad-carousel').carousel();

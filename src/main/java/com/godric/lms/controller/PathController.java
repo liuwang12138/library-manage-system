@@ -36,5 +36,14 @@ public class PathController {
         return "user/notice";
     }
 
+    @GetMapping(value = "myInfo")
+    public String toMyInfo() {
+        return "user/my_info";
+    }
+
+    @GetMapping(value = "register")
+    public String toRegister() {
+        return "user/register";
+    }
 
 }

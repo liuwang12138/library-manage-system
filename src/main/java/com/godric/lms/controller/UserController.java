@@ -23,10 +23,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping("register")
-    public ResultMessage<Void> register(@RequestParam String username,
-                                        @RequestParam String password,
-                                        @RequestParam String realName,
-                                        @RequestParam String phone) {
+    public ResultMessage<Void> register(String username,
+                                        String password,
+                                        String realName,
+                                        String phone) {
         log.info("username = " + username);
         log.info("password = " + password);
         log.info("realName = " + realName);
@@ -92,11 +92,15 @@ public class UserController {
         return ResultMessage.success();
     }
 
-    @PostMapping("用户修改密码")
-    public ResultMessage<Void> updatePassword(@RequestParam String username,
-                                              @RequestParam String oldPassword,
-                                              @RequestParam String newPassword) {
-        return userService.updatePassword(username, oldPassword, newPassword);
+    @PostMapping("updatePassword")
+    public ResultMessage<Void> updatePassword(String oldPassword,
+                                              String newPassword,
+                                              HttpServletRequest request) {
+        Object username = request.getSession().getAttribute("username");
+        if (Objects.isNull(username)) {
+            return ResultMessage.fail("您尚未登陆，请登陆后操作");
+        }
+        return userService.updatePassword((String)username, oldPassword, newPassword);
     }
 
 }

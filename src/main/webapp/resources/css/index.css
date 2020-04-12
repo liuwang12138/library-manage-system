@@ -29,3 +29,14 @@ a:hover{
 .glyphicon{
 	padding-right: 4px;
 }
+ul, li {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.common {
+	height: 36px;
+	line-height: 36px;
+	font-size: 14px;
+	color: #4d4d4d;
+}
