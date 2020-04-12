@@ -40,3 +40,22 @@ ul, li {
 	font-size: 14px;
 	color: #4d4d4d;
 }
+
+/*.table {*/
+/*	width: 100%;*/
+/*	font-size: 14px;*/
+/*	line-height: 14px;*/
+/*	border-collapse: collapse;*/
+/*}*/
+/*.table thead{*/
+/*	background:#00346d;*/
+/*	color: #f6f6f6;*/
+/*	font-weight:bold;*/
+/*}*/
+/*tbody tr:hover{*/
+/*	background:#f6f6f6;*/
+/*	color:#00346d;*/
+/*}*/
+/*tbody tr:nth-child(even) {*/
+/*	background: #f0f2f6;*/
+/*}*/

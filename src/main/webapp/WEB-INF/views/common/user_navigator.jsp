@@ -16,7 +16,7 @@
                 <li class="active">
                     <a href="${website}index"><span class="glyphicon glyphicon-home"></span>首页</a>
                 </li>
-                <li><a href="${website}/notice?pageNum=1&pageSize=5"><span class="glyphicon glyphicon-list-alt"></span>公告</a></li>
+                <li><a href="${website}notice"><span class="glyphicon glyphicon-list-alt"></span>公告</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-send"></span>特点 <span class="caret"></span></a>
                     <ul class="dropdown-menu">

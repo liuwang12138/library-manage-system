@@ -23,11 +23,11 @@ public class NoticeController {
 
     @PostMapping("listAll")
     @ResponseBody
-    public ResultMessage<IPage<NoticePO>> listAllNotices(@RequestParam("pageNum") Integer pageNum,
+    public ResultMessage<List<NoticePO>> listAllNotices(@RequestParam("pageNum") Integer pageNum,
                                                          @RequestParam("pageSize") Integer pageSize) {
         IPage<NoticePO> noticePOIPage = noticeService.listAllNotices(pageNum, pageSize);
 
-        return ResultMessage.success(noticePOIPage);
+        return ResultMessage.success(noticePOIPage.getRecords(), (int)noticePOIPage.getTotal());
     }
 
     @PostMapping("delete")

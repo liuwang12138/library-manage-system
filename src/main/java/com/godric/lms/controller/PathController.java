@@ -22,17 +22,18 @@ public class PathController {
     @Autowired
     NoticeService noticeService;
 
-    @RequestMapping(value = "index")
+    @RequestMapping(value = "")
     public String toIndex() {
         return "user/index";
     }
 
     @GetMapping(value = "notice")
-    public String toNotice(Model model,
-                           Integer pageNum,
-                           Integer pageSize) {
-        IPage<NoticePO> noticePOIPage = noticeService.listAllNotices(pageNum, pageSize);
-        model.addAttribute("noticeList", noticePOIPage);
+    public String toNotice(//Model model,
+                           //Integer pageNum,
+                           //Integer pageSize) {
+                            ) {
+//        IPage<NoticePO> noticePOIPage = noticeService.listAllNotices(pageNum, pageSize);
+//        model.addAttribute("noticeList", noticePOIPage);
         return "user/notice";
     }
 
