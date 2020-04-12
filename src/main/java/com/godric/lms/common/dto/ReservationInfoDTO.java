@@ -29,4 +29,6 @@ public class ReservationInfoDTO {
 
     private String timeQuantum;
 
+    private String opt = "<a href=\"http://localhost:20202/\">去往首页</a>";
+
 }

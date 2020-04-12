@@ -3,6 +3,7 @@
 <html>
 <head>
     <jsp:include page="../common/user_header.jsp" />
+    <link rel="stylesheet" href="${staticWebsite}css/table.css">
 </head>
 <body>
 <jsp:include page="../common/user_navigator.jsp" />
@@ -16,6 +17,11 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatePassword">
         修改密码
     </button>
+
+    <!-- 我的预约记录 -->
+    <h3>我的预约记录</h3>
+    <table id="table"></table>
+    <div class="page" id="page"></div>
 </div>
 <div class="modal fade" id="updatePassword" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -55,6 +61,7 @@
         </div>
     </div>
 </div>
+
 <jsp:include page="../common/user_footer.jsp" />
 <script>
     function updatePassword() {
@@ -89,5 +96,40 @@
         });
     }
 </script>
+
+<!-- 预约记录 list -->
+<script src="${staticWebsite}js/table.js"></script>
+<script>
+    new Table({
+        el: "#table", //装载Table的容器的id
+        ajaxData: { //ajax请求的参数
+            url: '${website}reservation/getMyReservationInfo',
+            method: 'post',
+            queryParams: { //提交给后端的数据
+                pageNum: 1, //当前页
+                pageSize: 6 //每一页显示的内容条数
+            }
+        },
+        stripe: true,//表格是否条纹状样式
+        pagination: true,//表格是否分页
+        paginOpt: {//分页参数
+            id: 'page',//装载分页的容器的id
+            curPage: 1, //当前页
+            pagelistcount: 6,//每一页显示的内容条数
+            maxshowpageitem: 3,//最多显示的页码个数
+        },
+        sort:[0, 2],//静态排序的列
+        col: [//表的列，name：表头名称，value：数据对应后端的字段，link：是否有链接
+            { name: '用户名', value: 'username'},
+            { name: '楼层', value: 'storey' },
+            { name: '房间号', value: 'roomNum' },
+            { name: '座位号', value: 'seatNum' },
+            { name: '预约日期', value: 'reservationDate' },
+            { name: '时间段', value: 'timeQuantum' },
+            { name: '操作', value: 'opt' },
+        ]
+    });
+</script>
+
 </body>
 </html>
