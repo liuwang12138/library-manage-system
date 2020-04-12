@@ -4,6 +4,7 @@ import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.service.SignInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -17,10 +18,11 @@ public class SignInfoController {
     @Autowired
     SignInfoService signInfoService;
 
-    @RequestMapping("insert")
-    public ResultMessage<Void> insertSignInfo(Integer type,
-                                              Integer reservationId) {
-        return signInfoService.insertSignInfo(type, reservationId);
+    @GetMapping("insert")
+    public String insertSignInfo(Integer type,
+                                 Integer reservationId) {
+        signInfoService.insertSignInfo(type, reservationId);
+        return "/user/my_info";
     }
 
     @RequestMapping("approve")

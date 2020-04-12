@@ -40,6 +40,9 @@ public class ReservationInfoPO {
     @TableField("reservation_id")
     private Integer reservationId;
 
+    @TableField("status")
+    private Integer status;
+
     @TableField("create_time")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime createTime;

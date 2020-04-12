@@ -43,7 +43,7 @@ public class ReservationInfoController {
 
     @ResponseBody
     @PostMapping("cancel")
-    public ResultMessage<Void> insertReservationInfo(@RequestParam Integer reservationId) {
+    public ResultMessage<Void> cancelReservationInfo(@RequestParam Integer reservationId) {
         if (reservationInfoService.cancelReservation(reservationId)) {
             return ResultMessage.success();
         }
