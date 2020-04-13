@@ -11,9 +11,9 @@ import java.util.List;
 public interface SignInfoService {
 
     ResultMessage<Void> insertSignInfo(Integer type,
-                                       Integer reservationId);
+                                       Integer reservationId) throws Exception;
 
-    ResultMessage<Void> approve(Integer signId);
+    ResultMessage<Void> approve(Integer signId) throws Exception;
 
     IPage<SignInfoPO> getUnauditedSignRecord(LocalDateTime startTime,
                                              LocalDateTime endTime,

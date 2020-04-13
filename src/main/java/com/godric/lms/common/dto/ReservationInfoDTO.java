@@ -29,6 +29,8 @@ public class ReservationInfoDTO {
 
     private String timeQuantum;
 
+    private Integer status;
+
     private String opt;
 
 }

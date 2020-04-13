@@ -6,7 +6,6 @@ import com.godric.lms.common.po.ReservationInfoPO;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 public interface ReservationInfoDao extends BaseMapper<ReservationInfoPO> {

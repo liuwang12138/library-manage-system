@@ -25,4 +25,7 @@ public interface ReservationInfoService {
     ResultMessage<List<ReservationInfoDTO>> getMyReservationList(Integer pageNum, Integer pageSize) throws Exception;
 
     Integer getMyId() throws Exception;
+
+    void updateReservationStatus(Integer reservationId, Integer reservationStatus) throws Exception;
+
 }

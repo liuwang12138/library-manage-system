@@ -13,7 +13,8 @@
             s.`room_num` as roomNum,
             s.`seat_num` as seatNum,
             r.`reservation_date` as reservationDate,
-            case `time_quantum` when 1 then '8:00-12:00' when 2 then '12:00-17:00' when 3 then '17:00-22:00' end as timeQuantum
+            case `time_quantum` when 1 then '8:00-12:00' when 2 then '12:00-17:00' when 3 then '17:00-22:00' end as timeQuantum,
+            r.status as status
         from `reservation_info` r
         left join `user` u on r.`user_id` = u.`id`
         left join `seat` s on r.`seat_id` = s.`id`
@@ -37,8 +38,10 @@
         <if test="userId != null">
             r.`user_id` = #{userId}
         </if>
-        <if test="startDate != null and endDate != null">
+        <if test="startDate != null">
             and r.`reservation_date` &gt;= #{startDate}
+        </if>
+        <if test="endDate != null">
             and r.`reservation_date` &lt;= #{endDate}
         </if>
         <if test="timeQuantum != null">

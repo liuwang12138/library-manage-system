@@ -1,12 +1,9 @@
 package com.godric.lms.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
+import com.godric.lms.common.enums.ReservationStatusEnum;
 import com.godric.lms.common.enums.SignTypeEnum;
 import com.godric.lms.common.po.ReservationInfoPO;
 import com.godric.lms.common.po.SignInfoPO;
@@ -15,7 +12,6 @@ import com.godric.lms.dao.ReservationInfoDao;
 import com.godric.lms.dao.SignInfoDao;
 import com.godric.lms.service.BlacklistService;
 import com.godric.lms.service.ReservationInfoService;
-import com.godric.lms.service.SignInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -88,7 +84,7 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     @Override
     public ResultMessage<List<ReservationInfoDTO>> getMyReservationList(Integer pageNum, Integer pageSize) throws Exception {
         Integer userId = getMyId();
-        ResultMessage<List<ReservationInfoDTO>> reservationInfoByCondition = getReservationInfoByCondition(userId, null, null, null, null, pageNum, pageSize);
+        ResultMessage<List<ReservationInfoDTO>> reservationInfoByCondition = getReservationInfoByCondition(userId, LocalDate.now(), null, null, null, pageNum, pageSize);
         if (reservationInfoByCondition.isSuccess()) {
             List<ReservationInfoDTO> data = reservationInfoByCondition.getData();
             generateOptForReservationInfo(data);
@@ -101,26 +97,34 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
     }
 
     private void generateOptForReservationInfo(ReservationInfoDTO dto) {
-        QueryWrapper<SignInfoPO> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("reservation_id", dto.getReservationId());
-        List<SignInfoPO> signInfoPos = signInfoDao.selectList(queryWrapper);
-
-        List<Integer> signTypeList = getSignTypeList(signInfoPos);
-        if (signTypeList.contains(SignTypeEnum.SIGN_OUT.getCode())) {
-            // 已签退
-            dto.setOpt("已签退");
-        }
-        // else if (notLate(dto))
-        else if (signInfoPos.isEmpty() && notLate(dto)) {
-            // 没有签到过
-            dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.SIGN_IN.getCode()
-                    + "&reservationId=" + dto.getReservationId() + "\">签到</a>");
-        } else if (signInfoPos.size() == 1) {
-            // 只是签到过，两个：临时签退/签退
+        if (ReservationStatusEnum.WAIT_SIGN_IN.getCode().equals(dto.getStatus())) {
+            if (!notLate(dto)) {
+                // 已迟
+                dto.setOpt("已迟到");
+            } else {
+                dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.SIGN_IN.getCode()
+                        + "&reservationId=" + dto.getReservationId() + "\">签到</a>");
+            }
+        } else if (ReservationStatusEnum.SIGN_IN_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
+            dto.setOpt("签到待审核");
+        } else if (ReservationStatusEnum.WAIT_SIGN_OUT.getCode().equals(dto.getStatus())) {
+            // 待签退
             dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.TEMP_SIGN_OUT.getCode()
                     + "&reservationId=" + dto.getReservationId() + "\">临时签退</a>&nbsp;&nbsp;" +
                     "<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.SIGN_OUT.getCode()
                     + "&reservationId=" + dto.getReservationId() + "\">签退</a>");
+        } else if (ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
+            // 临时签退待审核
+            dto.setOpt("临时签退待审核");
+        } else if (ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_BACK.getCode().equals(dto.getStatus())) {
+            dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.TEMP_SIGN_IN.getCode()
+                    + "&reservationId=" + dto.getReservationId() + "\">回馆</a>");
+        } else if (ReservationStatusEnum.TEMP_SIGN_BACK_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
+            dto.setOpt("已回馆待审核");
+        } else if (ReservationStatusEnum.SIGN_OUT_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
+            dto.setOpt("签退待审核");
+        } else if (ReservationStatusEnum.SIGN_OUT.getCode().equals(dto.getStatus())) {
+            dto.setOpt("已签退");
         }
     }
 
@@ -160,5 +164,54 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
             throw new Exception("获取用户信息为空");
         }
         return ((UserPO)user).getId();
+    }
+
+    @Override
+    public void updateReservationStatus(Integer reservationId, Integer reservationStatus) throws Exception {
+        ReservationInfoPO reservationInfo = reservationInfoDao.selectById(reservationId);
+        if (Objects.isNull(reservationInfo)) {
+            throw new Exception("根据id找不到预约信息！");
+        }
+        if (ReservationStatusEnum.SIGN_IN_WAIT_APPROVE.getCode().equals(reservationStatus)) {
+            // 变更为签到待审核
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.WAIT_SIGN_IN.getCode())) {
+                throw new Exception("原状态不是待签到，无法将状态变更为签到待审核");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else if (ReservationStatusEnum.WAIT_SIGN_OUT.getCode().equals(reservationStatus)) {
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.SIGN_IN_WAIT_APPROVE.getCode())
+            && !reservationInfo.getStatus().equals(ReservationStatusEnum.TEMP_SIGN_BACK_WAIT_APPROVE.getCode())) {
+                throw new Exception("原状态不是签到待审核或回馆待审核，无法将状态变更为待签退");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else if (ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_APPROVE.getCode().equals(reservationStatus)) {
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.WAIT_SIGN_OUT.getCode())) {
+                throw new Exception("原状态不是待签退，无法将状态变更为临时签退待审核");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else if (ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_BACK.getCode().equals(reservationStatus)) {
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_APPROVE.getCode())) {
+                throw new Exception("原状态不是临时签退待审核，无法将状态变更为");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else if (ReservationStatusEnum.TEMP_SIGN_BACK_WAIT_APPROVE.getCode().equals(reservationStatus)) {
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_BACK.getCode())) {
+                throw new Exception("原状态不是待回馆，无法将状态变更为回馆待审核");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else if (ReservationStatusEnum.SIGN_OUT_WAIT_APPROVE.getCode().equals(reservationStatus)) {
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.WAIT_SIGN_OUT.getCode())) {
+                throw new Exception("原状态不是待签退，无法将状态变更为签退待审核");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else if (ReservationStatusEnum.SIGN_OUT.getCode().equals(reservationStatus)) {
+            if (!reservationInfo.getStatus().equals(ReservationStatusEnum.SIGN_OUT_WAIT_APPROVE.getCode())) {
+                throw new Exception("原状态不是签退待审核，无法将状态变更为已签退");
+            }
+            reservationInfo.setStatus(reservationStatus);
+        } else {
+            throw new Exception("更新的状态不正确");
+        }
+        reservationInfoDao.updateById(reservationInfo);
     }
 }
