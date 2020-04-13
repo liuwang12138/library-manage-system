@@ -136,6 +136,7 @@
             { name: '预约日期', value: 'reservationDate' },
             { name: '时间段', value: 'timeQuantum' },
             { name: '操作', value: 'opt' },
+            { name: '取消', value: 'cancel'}
         ]
     });
 </script>

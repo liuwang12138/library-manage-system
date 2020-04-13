@@ -46,14 +46,16 @@ public class ReservationInfoController {
         return "user/seat";
     }
 
-    @ResponseBody
-    @PostMapping("cancel")
-    public ResultMessage<Void> cancelReservationInfo(@RequestParam Integer reservationId) {
+    @GetMapping("cancel")
+    public String cancelReservationInfo(@RequestParam Integer reservationId,
+                                        HttpServletRequest request) {
         if (reservationInfoService.cancelReservation(reservationId)) {
-            return ResultMessage.success();
+            request.setAttribute("insertSignMessage", "取消成功");
+        } else {
+            log.warn("id = " + reservationId + "找不到对应的记录");
+            request.setAttribute("insertSignMessage", "找不到对应的预约记录");
         }
-        log.warn("id = " + reservationId + "找不到对应的记录");
-        return ResultMessage.fail("找不到id对应的预约记录");
+        return "user/my_info";
     }
 
     @ResponseBody

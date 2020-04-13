@@ -33,4 +33,6 @@ public class ReservationInfoDTO {
 
     private String opt;
 
+    private String cancel;
+
 }

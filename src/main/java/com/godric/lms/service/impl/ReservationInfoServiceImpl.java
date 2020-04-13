@@ -102,30 +102,40 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
             if (!notLate(dto)) {
                 // 已迟
                 dto.setOpt("已迟到");
+                dto.setCancel("无法取消");
             } else {
                 dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.SIGN_IN.getCode()
                         + "&reservationId=" + dto.getReservationId() + "\">签到</a>");
+                dto.setCancel("<a href=\"" + LmsConstants.website + "reservation/cancel?reservationId="
+                        + dto.getReservationId() + "\">取消预约</a>");
             }
         } else if (ReservationStatusEnum.SIGN_IN_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
             dto.setOpt("签到待审核");
+            dto.setCancel("无法取消");
         } else if (ReservationStatusEnum.WAIT_SIGN_OUT.getCode().equals(dto.getStatus())) {
             // 待签退
             dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.TEMP_SIGN_OUT.getCode()
                     + "&reservationId=" + dto.getReservationId() + "\">临时签退</a>&nbsp;&nbsp;" +
                     "<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.SIGN_OUT.getCode()
                     + "&reservationId=" + dto.getReservationId() + "\">签退</a>");
+            dto.setCancel("无法取消");
         } else if (ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
             // 临时签退待审核
             dto.setOpt("临时签退待审核");
+            dto.setCancel("无法取消");
         } else if (ReservationStatusEnum.TEMP_SIGN_OUT_WAIT_BACK.getCode().equals(dto.getStatus())) {
             dto.setOpt("<a href=\"" + LmsConstants.website + "sign/insert?type=" + SignTypeEnum.TEMP_SIGN_IN.getCode()
                     + "&reservationId=" + dto.getReservationId() + "\">回馆</a>");
+            dto.setCancel("无法取消");
         } else if (ReservationStatusEnum.TEMP_SIGN_BACK_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
             dto.setOpt("已回馆待审核");
+            dto.setCancel("无法取消");
         } else if (ReservationStatusEnum.SIGN_OUT_WAIT_APPROVE.getCode().equals(dto.getStatus())) {
             dto.setOpt("签退待审核");
+            dto.setCancel("无法取消");
         } else if (ReservationStatusEnum.SIGN_OUT.getCode().equals(dto.getStatus())) {
             dto.setOpt("已签退");
+            dto.setCancel("无法取消");
         }
     }
 
