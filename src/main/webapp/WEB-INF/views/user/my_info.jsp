@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="${staticWebsite}css/table.css">
 </head>
 <body>
+<%
+    if (request.getAttribute("insertSignMessage") != null) {
+%>
+<script>
+    alert("${insertSignMessage}");
+</script>
+<%
+    }
+%>
 <jsp:include page="../common/user_navigator.jsp" />
 <div class="container">
     <h3>个人资料</h3>

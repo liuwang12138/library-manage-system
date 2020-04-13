@@ -7,11 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -28,17 +26,24 @@ public class ReservationInfoController {
     @Autowired
     ReservationInfoService reservationInfoService;
 
-    @ResponseBody
-    @PostMapping("insert")
-    public ResultMessage<Void> insertReservationInfo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate reservationDate,
-                                                     @RequestParam Integer timeQuantum,
-                                                     @RequestParam Integer seatId) {
+    @GetMapping("insert")
+    public String insertReservationInfo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate reservationDate,
+                                        @RequestParam Integer timeQuantum,
+                                        @RequestParam Integer seatId,
+                                        HttpServletRequest request) {
         try {
-            return reservationInfoService.insertReservation(reservationDate, timeQuantum, seatId);
+            ResultMessage<Void> voidResultMessage = reservationInfoService.insertReservation(reservationDate, timeQuantum, seatId);
+            if (voidResultMessage.isSuccess()) {
+                request.setAttribute("reserveInfo", "预约成功");
+            } else {
+                request.setAttribute("reserveInfo", voidResultMessage.getMessage());
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return ResultMessage.fail(e.getMessage());
+            request.setAttribute("reserveInfo", e.getMessage());
         }
+
+        return "user/seat";
     }
 
     @ResponseBody

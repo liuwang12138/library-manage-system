@@ -37,9 +37,6 @@ public class ReservationInfoPO {
     @TableField("seat_id")
     private Integer seatId;
 
-    @TableField("reservation_id")
-    private Integer reservationId;
-
     @TableField("status")
     private Integer status;
 

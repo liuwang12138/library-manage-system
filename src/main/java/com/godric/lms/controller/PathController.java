@@ -47,4 +47,9 @@ public class PathController {
         return "user/register";
     }
 
+    @GetMapping(value = "seat")
+    public String toSeat() {
+        return "user/seat";
+    }
+
 }

@@ -5,6 +5,7 @@ import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.enums.ReservationStatusEnum;
 import com.godric.lms.common.enums.SignTypeEnum;
+import com.godric.lms.common.enums.TimeQuantum;
 import com.godric.lms.common.po.ReservationInfoPO;
 import com.godric.lms.common.po.SignInfoPO;
 import com.godric.lms.common.po.UserPO;
@@ -135,6 +136,8 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
         if (now.isAfter(reservationDate)) {
             // 已经不是同一天了
             return false;
+        } else if (!now.equals(reservationDate)) {
+            return true;
         } else {
             // 是同一天
             String timeQuantum = dto.getTimeQuantum();
@@ -213,5 +216,28 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
             throw new Exception("更新的状态不正确");
         }
         reservationInfoDao.updateById(reservationInfo);
+    }
+
+    @Override
+    public boolean canSignIn(Integer reservationId) {
+        ReservationInfoPO reservationInfo = reservationInfoDao.selectById(reservationId);
+        if (!reservationInfo.getReservationDate().equals(LocalDate.now())) {
+            return false;
+        }
+
+        if (reservationInfo.getTimeQuantum().equals(TimeQuantum.AM.getCode())) {
+            return LocalDateTime.now().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 0, 0)))
+                    && LocalDateTime.now().isAfter(LocalDateTime.of(LocalDate.now(), LocalTime.of(7, 50, 0)));
+        } else if (reservationInfo.getTimeQuantum().equals(TimeQuantum.PM.getCode())) {
+            return LocalDateTime.now().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.of(13, 0, 0)))
+                    && LocalDateTime.now().isAfter(LocalDateTime.of(LocalDate.now(), LocalTime.of(11, 50, 0)));
+        } else if (reservationInfo.getTimeQuantum().equals(TimeQuantum.NIGHT.getCode())) {
+            return LocalDateTime.now().isBefore(LocalDateTime.of(LocalDate.now(), LocalTime.of(18, 0, 0)))
+                    && LocalDateTime.now().isAfter(LocalDateTime.of(LocalDate.now(), LocalTime.of(16, 50, 0)));
+        } else {
+            return false;
+        }
+
+
     }
 }

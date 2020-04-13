@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Godric
  */
@@ -20,12 +22,14 @@ public class SignInfoController {
 
     @GetMapping("insert")
     public String insertSignInfo(Integer type,
-                                 Integer reservationId) {
-        try {
-            ResultMessage<Void> voidResultMessage = signInfoService.insertSignInfo(type, reservationId);
-        } catch (Exception e) {
-            e.printStackTrace();
+                                 Integer reservationId,
+                                 HttpServletRequest request) throws Exception {
+        ResultMessage<Void> voidResultMessage = signInfoService.insertSignInfo(type, reservationId);
+
+        if ( !voidResultMessage.isSuccess()) {
+            request.setAttribute("insertSignMessage", voidResultMessage.getMessage());
         }
+
         return "/user/my_info";
     }
 

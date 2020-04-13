@@ -14,9 +14,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="${website}index"><span class="glyphicon glyphicon-home"></span>首页</a>
+                    <a href="${website}"><span class="glyphicon glyphicon-home"></span>首页</a>
                 </li>
                 <li><a href="${website}notice"><span class="glyphicon glyphicon-list-alt"></span>公告</a></li>
+                <li><a href="${website}seat"><span class="glyphicon glyphicon-list-alt"></span>预约</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-send"></span>特点 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -135,7 +136,7 @@
                 if (msg.code == 201) {
                     console.log("logout success");
                     alert("退出登陆成功");
-                    window.location = "${website}index"
+                    window.location = "${website}";
                 } else {
                     alert("退出登陆失败");
                 }

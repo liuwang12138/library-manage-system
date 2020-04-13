@@ -2,15 +2,20 @@ package com.godric.lms.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.godric.lms.common.dto.ResultMessage;
+import com.godric.lms.common.dto.SeatReservationInfoDTO;
+import com.godric.lms.common.enums.TimeQuantum;
 import com.godric.lms.common.po.SeatPO;
 import com.godric.lms.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -62,13 +67,20 @@ public class SeatController {
 
     @ResponseBody
     @PostMapping("listByCondition")
-    public ResultMessage<IPage<SeatPO>> listSeatsByCondition(@RequestParam(required = false) Integer storey,
-                                                             @RequestParam(required = false) String roomNum,
-                                                             @RequestParam(required = false) Integer seatNum,
-                                                             @RequestParam Integer pageNum,
-                                                             @RequestParam Integer pageSize) {
-        IPage<SeatPO> data = seatService.listByCondition(storey, roomNum, seatNum, pageNum, pageSize);
-        return ResultMessage.success(data);
+    public ResultMessage<List<SeatReservationInfoDTO>> listSeatsByCondition(Integer storey,
+                                                                            String roomNum,
+                                                                            Integer seatNum,
+                                                                            Integer pageNum,
+                                                                            Integer pageSize,
+                                                                            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date,
+                                                                            Integer timeQuantum) {
+        if (date == null) {
+            date = LocalDate.now();
+        }
+        if (timeQuantum == null) {
+            timeQuantum = TimeQuantum.AM.getCode();
+        }
+        return seatService.listByCondition(storey, roomNum, seatNum, date, timeQuantum, pageNum, pageSize);
     }
 
 }
