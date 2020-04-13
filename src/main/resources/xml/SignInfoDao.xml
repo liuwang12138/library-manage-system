@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.godric.lms.dao.SignInfoDao">
+
+    <select id="getTodayUnApprovedSignList" resultType="com.godric.lms.common.dto.SignInfoDTO">
+        select
+            s.id as signInfoId,
+            u.username,
+            r.reservation_date,
+            case r.`time_quantum` when 1 then '8:00-12:00' when 2 then '12:00-17:00' when 3 then '17:00-22:00' end as timeQuantum,
+            se.storey,
+            se.room_num,
+            se.seat_num,
+            s.create_time,
+            case s.type when 1 then '签到' when 2 then '临时签退' when 3 then '回馆' when 4 then '签退' end as signType
+        from sign_info s
+        left join reservation_info r on s.reservation_id = r.id
+        left join `user` u on r.`user_id` = u.`id`
+        left join `seat` se on se.id = r.`seat_id`
+        <include refid="queryCondition" />
+    </select>
+    <select id="countUnapprovedSignList" resultType="java.lang.Integer">
+        select count(1)
+        from sign_info s
+        <include refid="queryCondition" />
+    </select>
+
+    <sql id="queryCondition">
+        where s.`create_time` &gt; #{startTime}
+            and s.`status` = 1
+    </sql>
+
+</mapper>

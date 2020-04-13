@@ -1,12 +1,17 @@
 package com.godric.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.godric.lms.common.dto.BlacklistDTO;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.enums.SignTypeEnum;
 import com.godric.lms.common.po.BlacklistPO;
 import com.godric.lms.common.po.SignInfoPO;
+import com.godric.lms.common.po.UserPO;
 import com.godric.lms.dao.BlacklistDao;
+import com.godric.lms.dao.UserDao;
 import com.godric.lms.service.BlacklistService;
 import com.godric.lms.service.ReservationInfoService;
 import com.godric.lms.service.SignInfoService;
@@ -15,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +39,9 @@ public class BlacklistServiceImpl implements BlacklistService {
 
     @Autowired
     BlacklistDao blacklistDao;
+
+    @Autowired
+    UserDao userDao;
 
     @Override
     public void scanBreakRuleList() {
@@ -71,4 +80,28 @@ public class BlacklistServiceImpl implements BlacklistService {
         List<BlacklistPO> blacklistPos = blacklistDao.selectList(queryWrapper);
         return !blacklistPos.isEmpty();
     }
+
+    @Override
+    public ResultMessage<List<BlacklistDTO>> listBlack(Integer pageNum, Integer pageSize) {
+        QueryWrapper<BlacklistPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.gt("deadline", LocalDateTime.now());
+        queryWrapper.orderByDesc("create_time", "id");
+
+        IPage<BlacklistPO> page = new Page<>(pageNum, pageSize);
+        IPage<BlacklistPO> blacklistPOIPage = blacklistDao.selectPage(page, queryWrapper);
+
+        List<BlacklistDTO> list = new ArrayList<>();
+        blacklistPOIPage.getRecords().forEach(po -> {
+            BlacklistDTO dto = new BlacklistDTO();
+            dto.setDeadline(po.getDeadline());
+            dto.setCreateTime(po.getCreateTime());
+            UserPO user = userDao.selectById(po.getUserId());
+            dto.setUsername(user == null ? "" : user.getUsername());
+
+            list.add(dto);
+        });
+
+        return ResultMessage.success(list, (int)page.getTotal());
+    }
+
 }

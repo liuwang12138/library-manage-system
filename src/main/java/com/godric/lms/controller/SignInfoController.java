@@ -33,14 +33,4 @@ public class SignInfoController {
         return "/user/my_info";
     }
 
-    @RequestMapping("approve")
-    public ResultMessage<Void> approve(Integer signId) {
-        try {
-            return signInfoService.approve(signId);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResultMessage.fail("调用过程发生未知异常");
-        }
-    }
-
 }

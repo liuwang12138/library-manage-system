@@ -68,6 +68,26 @@ public class SeatServiceImpl implements SeatService {
         return ResultMessage.success(list, (int)seatPOIPage.getTotal());
     }
 
+    @Override
+    public ResultMessage<List<SeatPO>> listByCondition(Integer storey, String roomNum, Integer seatNum, Integer pageNum, Integer pageSize) {
+        QueryWrapper<SeatPO> queryWrapper = new QueryWrapper<SeatPO>();
+        if (Objects.nonNull(storey)) {
+            queryWrapper.eq("storey", storey);
+        }
+        if (!StringUtils.isNullOrEmpty(roomNum)) {
+            queryWrapper.eq("room_num", roomNum);
+        }
+        if (Objects.nonNull(seatNum)) {
+            queryWrapper.eq("seat_num", seatNum);
+        }
+        queryWrapper.orderByAsc("id");
+        IPage<SeatPO> page = new Page<>(pageNum, pageSize);
+
+        IPage<SeatPO> seatPOIPage = seatDao.selectPage(page, queryWrapper);
+
+        return ResultMessage.success(seatPOIPage.getRecords(), (int)seatPOIPage.getTotal());
+    }
+
     /**
      * 判断座位是否已经被预定
      */

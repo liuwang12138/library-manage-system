@@ -247,7 +247,6 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
         } else {
             return false;
         }
-
-
     }
+
 }

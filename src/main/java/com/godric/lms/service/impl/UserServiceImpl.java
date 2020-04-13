@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private Random random = new Random();
 
     @Override
-    public ResultMessage<UserPO> register(String username, String password, String realName, String phone) {
+    public ResultMessage<UserPO> register(String username, String password, String realName, String phone, Integer type) {
         QueryWrapper<UserPO> queryWrapper = new QueryWrapper<UserPO>().eq("username", username);
         List<UserPO> userPos = userDao.selectList(queryWrapper);
         if (!userPos.isEmpty()) {
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
                             .password(password)
                             .realName(realName)
                             .phone(phone)
-                            .type(UserTypeEnum.USER.getCode())
+                            .type(type)
                             .cardNum(generateCardNum())
                             .build();
         userDao.insert(userPo);
@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public IPage<UserPO> listAllUsers(Integer pageNum, Integer pageSize) {
         QueryWrapper<UserPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_time", "id");
         IPage<UserPO> page = new Page<>(pageNum, pageSize);
         return userDao.selectPage(page, queryWrapper);
     }

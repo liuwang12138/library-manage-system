@@ -29,4 +29,5 @@ public interface ReservationInfoService {
     void updateReservationStatus(Integer reservationId, Integer reservationStatus) throws Exception;
 
     boolean canSignIn(Integer reservationId);
+
 }

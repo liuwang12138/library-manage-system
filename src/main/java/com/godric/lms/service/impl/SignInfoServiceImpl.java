@@ -3,8 +3,10 @@ package com.godric.lms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
+import com.godric.lms.common.dto.SignInfoDTO;
 import com.godric.lms.common.enums.ReservationStatusEnum;
 import com.godric.lms.common.enums.SignStatusEnum;
 import com.godric.lms.common.enums.SignTypeEnum;
@@ -17,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -105,20 +109,6 @@ public class SignInfoServiceImpl implements SignInfoService {
     }
 
     @Override
-    public IPage<SignInfoPO> getUnauditedSignRecord(LocalDateTime startTime, LocalDateTime endTime, Integer pageNum, Integer pageSize) {
-        QueryWrapper<SignInfoPO> queryWrapper = new QueryWrapper<SignInfoPO>();
-        if (startTime != null) {
-            queryWrapper.gt("create_time", startTime);
-        }
-        if (startTime != null) {
-            queryWrapper.lt("create_time", endTime);
-        }
-        IPage<SignInfoPO> page = new Page<>(pageNum, pageSize);
-
-        return signInfoDao.selectPage(page, queryWrapper);
-    }
-
-    @Override
     public List<SignInfoPO> getOverSignRecord(Integer reservationId, LocalDateTime startTime, LocalDateTime endTime) {
         QueryWrapper<SignInfoPO> queryWrapper = new QueryWrapper<>();
         if (Objects.nonNull(reservationId)) {
@@ -137,5 +127,19 @@ public class SignInfoServiceImpl implements SignInfoService {
     @Override
     public List<SignInfoPO> getOverSignRecord(Integer reservationId) {
         return getOverSignRecord(reservationId, null, null);
+    }
+
+    @Override
+    public ResultMessage<List<SignInfoDTO>> listSignInfoWaitingApprove(Integer pageNum, Integer pageSize) {
+        Integer startNum = (pageNum - 1) * pageSize;
+        LocalDateTime startTime = LocalDateTime.now().withHour(0).withMinute(0).withSecond(0);
+        List<SignInfoDTO> list =  signInfoDao.getTodayUnApprovedSignList(startTime, startNum, pageSize);
+        Integer count = signInfoDao.countUnapprovedSignList(startTime);
+
+        list.forEach(dto -> {
+            dto.setOpt("<a href=\"" + LmsConstants.website + "admin/approveSignInfo?signId=" + dto.getSignInfoId() + "\">审核</a>");
+        });
+
+        return ResultMessage.success(list, count);
     }
 }

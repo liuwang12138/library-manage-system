@@ -1,5 +1,11 @@
 package com.godric.lms.service;
 
+import com.godric.lms.common.dto.BlacklistDTO;
+import com.godric.lms.common.dto.ReservationInfoDTO;
+import com.godric.lms.common.dto.ResultMessage;
+
+import java.util.List;
+
 public interface BlacklistService {
 
     /**
@@ -9,5 +15,7 @@ public interface BlacklistService {
     void scanBreakRuleList();
 
     boolean inBlacklist(Integer userId);
+
+    ResultMessage<List<BlacklistDTO>> listBlack(Integer pageNum, Integer pageSize);
 
 }

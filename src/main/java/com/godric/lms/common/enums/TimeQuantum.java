@@ -3,6 +3,8 @@ package com.godric.lms.common.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @AllArgsConstructor
 public enum TimeQuantum {
@@ -13,5 +15,14 @@ public enum TimeQuantum {
 
     private Integer code;
     private String value;
+
+    public static String getValueByCode(@NotNull Integer code) {
+        for (TimeQuantum timeQuantum : TimeQuantum.values()) {
+            if (timeQuantum.getCode().equals(code)) {
+                return timeQuantum.getValue();
+            }
+        }
+        return "";
+    }
 
 }

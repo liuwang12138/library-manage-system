@@ -16,6 +16,8 @@ public interface SeatService {
 
     ResultMessage<List<SeatReservationInfoDTO>> listByCondition(Integer storey, String roomNum, Integer seatNum, LocalDate date, Integer timeQuantum, Integer pageNum, Integer pageSize);
 
+    ResultMessage<List<SeatPO>> listByCondition(Integer storey, String roomNum, Integer seatNum, Integer pageNum, Integer pageSize);
+
     void insertSeat(Integer storey, String roomNum, Integer seatNum);
 
     void deleteSeat(Integer id);

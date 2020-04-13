@@ -18,15 +18,7 @@
                 </li>
                 <li><a href="${website}notice"><span class="glyphicon glyphicon-list-alt"></span>公告</a></li>
                 <li><a href="${website}seat"><span class="glyphicon glyphicon-list-alt"></span>预约</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-send"></span>特点 <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">小兔子</a></li>
-                        <li><a href="#">小猫咪</a></li>
-                        <li><a href="#">躲起来</a></li>
-                        <li><a href="#">美女</a></li>
-                    </ul>
-                </li>
+                <li><a href="${website}admin/login"><span class="glyphicon glyphicon-list-alt"></span>我是管理员</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#about"><span class="glyphicon glyphicon-bell"></span>关于</a></li>
             </ul>
 
