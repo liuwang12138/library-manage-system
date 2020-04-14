@@ -36,7 +36,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="${website}myInfo" data-target="#myInfo">个人信息</a></li>
-                                <li><a href="#" onclick="logout()"><退出登陆></退出登陆></a></li>
+                                <li><a href="#" onclick="logout()">退出登陆</a></li>
                             </ul>
                         </div>
                         </c:otherwise>

@@ -22,8 +22,14 @@ public class PathController {
     @Autowired
     NoticeService noticeService;
 
-    @RequestMapping(value = "")
+    @RequestMapping(value = "index")
     public String toIndex() {
+        return "user/index";
+    }
+
+    @RequestMapping(value = "interceptor/index")
+    public String interceptorIndex(HttpServletRequest request) {
+        request.setAttribute("indexInfo", "请先登录！");
         return "user/index";
     }
 

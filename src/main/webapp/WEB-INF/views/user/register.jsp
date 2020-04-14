@@ -63,7 +63,7 @@
                 if (msg.code == 201) {
                     console.log("register success");
                     alert(msg.message);
-                    window.location = "${website}";
+                    window.location = "${website}index";
                 } else {
                     alert(msg.message);
                 }

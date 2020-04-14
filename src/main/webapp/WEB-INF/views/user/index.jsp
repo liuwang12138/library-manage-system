@@ -6,6 +6,15 @@
     <jsp:include page="../common/user_header.jsp" />
   </head>
   <body>
+  <%
+    if (request.getAttribute("indexInfo") != null) {
+  %>
+  <script>
+    alert("${indexInfo}");
+  </script>
+  <%
+  }
+  %>
     <!--导航栏-->
     <jsp:include page="../common/user_navigator.jsp" />
     <!--图片轮播-->

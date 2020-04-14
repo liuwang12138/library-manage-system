@@ -44,9 +44,14 @@
     <!-- 匹配所有请求，此处也可以配置成 *.do 形式 -->
     <url-pattern>/</url-pattern>
   </servlet-mapping>
+  <!-- 默认的欢迎页面 -->
+  <servlet-mapping>
+    <servlet-name>SpringMVC</servlet-name>
+    <url-pattern>/index</url-pattern>
+  </servlet-mapping>
 
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>index</welcome-file>
   </welcome-file-list>
 
 </web-app>
