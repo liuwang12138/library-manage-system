@@ -7,6 +7,7 @@ import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.dto.SeatDTO;
 import com.godric.lms.common.dto.SeatReservationInfoDTO;
+import com.godric.lms.common.enums.TimeQuantum;
 import com.godric.lms.common.po.ReservationInfoPO;
 import com.godric.lms.common.po.SeatPO;
 import com.godric.lms.dao.ReservationInfoDao;
@@ -42,6 +43,8 @@ public class SeatServiceImpl implements SeatService {
         seatPOIPage.getRecords().forEach(po -> {
             SeatReservationInfoDTO dto = new SeatReservationInfoDTO();
             BeanUtils.copyProperties(po, dto);
+            dto.setDate(date);
+            dto.setTimeQuantum(TimeQuantum.getValueByCode(timeQuantum));
             if (reserved(po, date, timeQuantum)) {
                 dto.setOpt("已预约");
             } else {

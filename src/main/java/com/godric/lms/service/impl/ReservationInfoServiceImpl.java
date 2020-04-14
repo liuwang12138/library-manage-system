@@ -1,5 +1,6 @@
 package com.godric.lms.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.ReservationCountDTO;
 import com.godric.lms.common.dto.ReservationInfoDTO;
@@ -55,6 +56,16 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
         Integer userId = getMyId();
         if (blacklistService.inBlacklist(userId)) {
             return ResultMessage.fail("您在黑名单列表里，暂时不能预约座位！");
+        }
+
+        QueryWrapper<ReservationInfoPO> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("user_id", userId)
+                    .eq("reservation_date", reservationDate)
+                    .eq("time_quantum", timeQuantum);
+
+        List<ReservationInfoPO> reservationInfoPos = reservationInfoDao.selectList(queryWrapper);
+        if (!reservationInfoPos.isEmpty()) {
+            return ResultMessage.fail("您在该时间段已有预约，无法同一时间预约多个位置！");
         }
 
         ReservationInfoPO info = ReservationInfoPO.builder()
@@ -260,7 +271,7 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
         int startNum = (pageNum - 1) * pageSize;
 
         startDate = startDate.plusDays(startNum);
-        LocalDate endPageDate = startDate.plusDays(pageSize);
+        LocalDate endPageDate = startDate.plusDays(pageSize-1);
         endDate = endDate.isBefore(endPageDate) ? endDate : endPageDate;
 
 

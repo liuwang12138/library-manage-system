@@ -219,10 +219,10 @@
      */
     function initPageEvent(obj, page) {
         $("#" + page.id + ">li[class='pageItem']").on("click", function() {
-            var options = {};
+            var options = obj.ajaxData.queryParams;
             options.pageNum = $(this).attr("page-data");
             options.pageSize = page.pagelistcount;
-            ajax(obj, options, page);
+            ajax(obj, options);
         });
     }
     

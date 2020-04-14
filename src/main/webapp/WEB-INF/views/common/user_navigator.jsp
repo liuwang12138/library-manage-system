@@ -20,11 +20,9 @@
                 <li><a href="${website}seat"><span class="glyphicon glyphicon-list-alt"></span>预约</a></li>
                 <li><a href="${website}reservation/statistic"><span class="glyphicon glyphicon-list-alt"></span>预约信息统计</a></li>
                 <li><a href="${website}admin/login"><span class="glyphicon glyphicon-list-alt"></span>我是管理员</a></li>
-                <li><a href="#" data-toggle="modal" data-target="#about"><span class="glyphicon glyphicon-bell"></span>关于</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-shopping-cart"></span></a></li>
                 <li>
                     <c:choose>
                         <c:when test="${sessionScope.username == null}">
@@ -37,8 +35,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="#" onclick="logout()">logout</a></li>
                                 <li><a href="${website}myInfo" data-target="#myInfo">个人信息</a></li>
+                                <li><a href="#" onclick="logout()"><退出登陆></退出登陆></a></li>
                             </ul>
                         </div>
                         </c:otherwise>

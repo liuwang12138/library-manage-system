@@ -88,10 +88,13 @@ public class ReservationInfoController {
 
     @ResponseBody
     @PostMapping("countReservationByDate")
-    public ResultMessage<List<ReservationCountDTO>> countReservationByDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+    public ResultMessage<List<ReservationCountDTO>> countReservationByDate(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
                                                                            Integer pageNum,
                                                                            Integer pageSize) {
+
+        if (startDate == null) startDate = LocalDate.now();
+        if (endDate == null) endDate = LocalDate.now();
         return reservationInfoService.countReservationByDate(startDate, endDate, pageNum, pageSize);
     }
 
