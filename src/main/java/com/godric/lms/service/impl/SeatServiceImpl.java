@@ -65,7 +65,7 @@ public class SeatServiceImpl implements SeatService {
             SeatDTO dto = new SeatDTO();
             BeanUtils.copyProperties(po, dto);
 
-            dto.setOpt("<a href=\"" + LmsConstants.website + "deleteSeatById?id=" + po.getId() +
+            dto.setOpt("<a href=\"" + LmsConstants.website + "admin/deleteSeatById?id=" + po.getId() +
                     "\">删除</a>");
             list.add(dto);
         });

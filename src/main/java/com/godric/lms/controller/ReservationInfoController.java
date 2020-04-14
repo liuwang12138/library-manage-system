@@ -1,5 +1,6 @@
 package com.godric.lms.controller;
 
+import com.godric.lms.common.dto.ReservationCountDTO;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.service.ReservationInfoService;
@@ -16,13 +17,19 @@ import java.util.List;
 /**
  * @author Godric
  */
-@Controller
 @Slf4j
+@Controller
 @RequestMapping("reservation")
 public class ReservationInfoController {
 
     @Autowired
     ReservationInfoService reservationInfoService;
+
+
+    @GetMapping("statistic")
+    public String statistic() {
+        return "user/statistic";
+    }
 
     @GetMapping("insert")
     public String insertReservationInfo(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate reservationDate,
@@ -78,5 +85,15 @@ public class ReservationInfoController {
                                                                                  @RequestParam Integer pageSize) {
         return reservationInfoService.getReservationInfoByCondition(userId, startDate, endDate, timeQuantum, seatId, pageNum, pageSize);
     }
+
+    @ResponseBody
+    @PostMapping("countReservationByDate")
+    public ResultMessage<List<ReservationCountDTO>> countReservationByDate(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                                                           Integer pageNum,
+                                                                           Integer pageSize) {
+        return reservationInfoService.countReservationByDate(startDate, endDate, pageNum, pageSize);
+    }
+
 
 }

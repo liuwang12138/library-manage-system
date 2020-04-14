@@ -1,6 +1,7 @@
 package com.godric.lms.service.impl;
 
 import com.godric.lms.common.constants.LmsConstants;
+import com.godric.lms.common.dto.ReservationCountDTO;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
 import com.godric.lms.common.enums.ReservationStatusEnum;
@@ -249,4 +250,34 @@ public class ReservationInfoServiceImpl implements ReservationInfoService {
         }
     }
 
+    @Override
+    public ResultMessage<List<ReservationCountDTO>> countReservationByDate(LocalDate startDate, LocalDate endDate, Integer pageNum, Integer pageSize) {
+
+        List<ReservationCountDTO> list = new ArrayList<>();
+
+        long count = endDate.toEpochDay() - startDate.toEpochDay() + 1;
+
+        int startNum = (pageNum - 1) * pageSize;
+
+        startDate = startDate.plusDays(startNum);
+        LocalDate endPageDate = startDate.plusDays(pageSize);
+        endDate = endDate.isBefore(endPageDate) ? endDate : endPageDate;
+
+
+        for (LocalDate date = startDate; date.isBefore(endDate) || date.isEqual(endDate); date = date.plusDays(1)) {
+            ReservationCountDTO dto = new ReservationCountDTO();
+            dto.setDate(date);
+            Integer amNum = reservationInfoDao.countReservationInfoByCondition(null, date, date, TimeQuantum.AM.getCode(), null);
+            Integer pmNum = reservationInfoDao.countReservationInfoByCondition(null, date, date, TimeQuantum.PM.getCode(), null);
+            Integer nightNum = reservationInfoDao.countReservationInfoByCondition(null, date, date, TimeQuantum.NIGHT.getCode(), null);
+
+            dto.setAmNum(amNum);
+            dto.setPmNum(pmNum);
+            dto.setNightNum(nightNum    );
+
+            list.add(dto);
+        }
+
+        return ResultMessage.success(list, (int)count);
+    }
 }

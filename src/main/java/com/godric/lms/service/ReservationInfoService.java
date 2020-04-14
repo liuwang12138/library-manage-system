@@ -1,6 +1,7 @@
 package com.godric.lms.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.godric.lms.common.dto.ReservationCountDTO;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
 
@@ -30,4 +31,5 @@ public interface ReservationInfoService {
 
     boolean canSignIn(Integer reservationId);
 
+    ResultMessage<List<ReservationCountDTO>> countReservationByDate(LocalDate startDate, LocalDate endDate, Integer pageNum, Integer pageSize);
 }

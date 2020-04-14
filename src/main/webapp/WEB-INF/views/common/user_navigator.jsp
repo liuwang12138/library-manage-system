@@ -18,6 +18,7 @@
                 </li>
                 <li><a href="${website}notice"><span class="glyphicon glyphicon-list-alt"></span>公告</a></li>
                 <li><a href="${website}seat"><span class="glyphicon glyphicon-list-alt"></span>预约</a></li>
+                <li><a href="${website}reservation/statistic"><span class="glyphicon glyphicon-list-alt"></span>预约信息统计</a></li>
                 <li><a href="${website}admin/login"><span class="glyphicon glyphicon-list-alt"></span>我是管理员</a></li>
                 <li><a href="#" data-toggle="modal" data-target="#about"><span class="glyphicon glyphicon-bell"></span>关于</a></li>
             </ul>

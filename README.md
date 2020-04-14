@@ -1,9 +1,9 @@
 ### 管理员端
 
-- <font color="gray">用户管理</font>：管理员对用户信息进行增删改查
-- <font color="gray">座位管理</font>：座位按楼层、自习室、座位号
-- <font color="gray">公告管理</font>：发布、删除公告
-- <font color="gray">黑名单管理</font>：超过预约时间、暂时离馆60min未签到进入黑名单，黑名单三天不能预约座位
+- <font color="gray">~~用户管理~~</font>：管理员对用户信息进行增删改查
+- <font color="gray">~~座位管理~~</font>：座位按楼层、自习室、座位号
+- <font color="gray">~~公告管理~~</font>：发布、删除公告
+- <font color="gray">~~黑名单管理~~</font>：超过预约时间、暂时离馆60min未签到进入黑名单，黑名单三天不能预约座位
 - 统计功能：统计高峰和低峰时间段
 
 ### 用户模块
