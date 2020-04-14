@@ -17,7 +17,7 @@
             <a href="${website}admin/signApprove"><i class="fa fa-fw fa-folder"></i>签到审核</a>
         </li>
         <li>
-            <a href="#"><i class="fa fa-fw fa-file-o"></i>座位管理</a>
+            <a href="${website}admin/seat"><i class="fa fa-fw fa-file-o"></i>座位管理</a>
         </li>
         <li>
             <a href="${website}admin/notice"><i class="fa fa-fw fa-cog"></i>公告管理</a>

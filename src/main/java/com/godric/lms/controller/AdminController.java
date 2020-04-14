@@ -71,6 +71,11 @@ public class AdminController {
         return "admin/sign_approve";
     }
 
+    @RequestMapping("seat")
+    public String seat() {
+        return "admin/seat";
+    }
+
     @ResponseBody
     @PostMapping("login")
     public ResultMessage<Void> login(String username,
@@ -164,14 +169,15 @@ public class AdminController {
                                           @RequestParam String roomNum,
                                           @RequestParam Integer seatNum) {
         seatService.insertSeat(storey, roomNum, seatNum);
-        return ResultMessage.success();
+        return ResultMessage.success("新增成功");
     }
 
-    @ResponseBody
-    @PostMapping("deleteSeatById")
-    public ResultMessage<Void> deleteSeatById(@RequestParam Integer id) {
+    @GetMapping("deleteSeatById")
+    public String deleteSeatById(@RequestParam Integer id,
+                                 HttpServletRequest request) {
         seatService.deleteSeat(id);
-        return ResultMessage.success();
+        request.setAttribute("seatOptInfo", "删除成功");
+        return "admin/seat";
     }
 
     @ResponseBody
@@ -196,7 +202,7 @@ public class AdminController {
 
     @ResponseBody
     @PostMapping("listSeatInfoByCondition")
-    public ResultMessage<List<SeatPO>> listSeatInfoByCondition(Integer storey,
+    public ResultMessage<List<SeatDTO>> listSeatInfoByCondition(Integer storey,
                                                                String roomNum,
                                                                Integer seatNum,
                                                                Integer pageNum,

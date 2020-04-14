@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.ResultMessage;
+import com.godric.lms.common.dto.SeatDTO;
 import com.godric.lms.common.dto.SeatReservationInfoDTO;
 import com.godric.lms.common.po.ReservationInfoPO;
 import com.godric.lms.common.po.SeatPO;
@@ -35,20 +36,7 @@ public class SeatServiceImpl implements SeatService {
 
     @Override
     public ResultMessage<List<SeatReservationInfoDTO>> listByCondition(Integer storey, String roomNum, Integer seatNum, LocalDate date, Integer timeQuantum, Integer pageNum, Integer pageSize) {
-        QueryWrapper<SeatPO> queryWrapper = new QueryWrapper<SeatPO>();
-        if (Objects.nonNull(storey)) {
-            queryWrapper.eq("storey", storey);
-        }
-        if (!StringUtils.isNullOrEmpty(roomNum)) {
-            queryWrapper.eq("room_num", roomNum);
-        }
-        if (Objects.nonNull(seatNum)) {
-            queryWrapper.eq("seat_num", seatNum);
-        }
-        queryWrapper.orderByAsc("id");
-        IPage<SeatPO> page = new Page<>(pageNum, pageSize);
-
-        IPage<SeatPO> seatPOIPage = seatDao.selectPage(page, queryWrapper);
+        IPage<SeatPO> seatPOIPage = getSeatPoIPage(storey, roomNum, seatNum, pageNum, pageSize);
 
         List<SeatReservationInfoDTO> list = new ArrayList<>();
         seatPOIPage.getRecords().forEach(po -> {
@@ -69,7 +57,23 @@ public class SeatServiceImpl implements SeatService {
     }
 
     @Override
-    public ResultMessage<List<SeatPO>> listByCondition(Integer storey, String roomNum, Integer seatNum, Integer pageNum, Integer pageSize) {
+    public ResultMessage<List<SeatDTO>> listByCondition(Integer storey, String roomNum, Integer seatNum, Integer pageNum, Integer pageSize) {
+        IPage<SeatPO> seatPoIPage = getSeatPoIPage(storey, roomNum, seatNum, pageNum, pageSize);
+
+        List<SeatDTO> list = new ArrayList<>();
+        seatPoIPage.getRecords().forEach(po -> {
+            SeatDTO dto = new SeatDTO();
+            BeanUtils.copyProperties(po, dto);
+
+            dto.setOpt("<a href=\"" + LmsConstants.website + "deleteSeatById?id=" + po.getId() +
+                    "\">删除</a>");
+            list.add(dto);
+        });
+
+        return ResultMessage.success(list, (int)seatPoIPage.getTotal());
+    }
+
+    private IPage<SeatPO> getSeatPoIPage(Integer storey, String roomNum, Integer seatNum, Integer pageNum, Integer pageSize) {
         QueryWrapper<SeatPO> queryWrapper = new QueryWrapper<SeatPO>();
         if (Objects.nonNull(storey)) {
             queryWrapper.eq("storey", storey);
@@ -83,9 +87,7 @@ public class SeatServiceImpl implements SeatService {
         queryWrapper.orderByAsc("id");
         IPage<SeatPO> page = new Page<>(pageNum, pageSize);
 
-        IPage<SeatPO> seatPOIPage = seatDao.selectPage(page, queryWrapper);
-
-        return ResultMessage.success(seatPOIPage.getRecords(), (int)seatPOIPage.getTotal());
+        return seatDao.selectPage(page, queryWrapper);
     }
 
     /**
