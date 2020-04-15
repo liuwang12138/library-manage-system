@@ -45,10 +45,10 @@ public class SignInfoServiceImpl implements SignInfoService {
     public ResultMessage<Void> insertSignInfo(Integer type,
                                               Integer reservationId) throws Exception {
 
-        // 判断是否可以签到
-        if (type.equals(SignTypeEnum.SIGN_IN.getCode()) && !reservationInfoService.canSignIn(reservationId)) {
-            return ResultMessage.fail("还不到签到的时间，请稍后再试！");
-        }
+        // 判断是否可以签到  TODO : 演示用
+//        if (type.equals(SignTypeEnum.SIGN_IN.getCode()) && !reservationInfoService.canSignIn(reservationId)) {
+//            return ResultMessage.fail("还不到签到的时间，请稍后再试！");
+//        }
 
         Integer reservationStatus;
         if (type.equals(SignTypeEnum.SIGN_IN.getCode())) {

@@ -22,6 +22,7 @@
         <li class="common">用户名：<%=((UserPO)session.getAttribute("user")).getUsername()%></li>
         <li class="common">真实姓名：<%=((UserPO)session.getAttribute("user")).getRealName()%></li>
         <li class="common">手机号：<%=((UserPO)session.getAttribute("user")).getPhone()%></li>
+        <li class="common">卡号：<%=((UserPO)session.getAttribute("user")).getCardNum()%></li>
     </ul>
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updatePassword">
         修改密码
@@ -44,19 +45,19 @@
                     <div class="form-group">
                         <label for="originPassword" class="col-sm-2 control-label">原密码:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="originPassword" placeholder="原密码">
+                            <input type="password" class="form-control" id="originPassword" placeholder="原密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="newPassword" class="col-sm-2 control-label">新密码:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="newPassword" placeholder="新密码">
+                            <input type="password" class="form-control" id="newPassword" placeholder="新密码">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword" class="col-sm-2 control-label">确认密码:</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="confirmPassword" placeholder="确认密码">
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="确认密码">
                         </div>
                     </div>
                     <div class="form-group">

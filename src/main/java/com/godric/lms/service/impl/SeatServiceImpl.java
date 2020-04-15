@@ -99,8 +99,8 @@ public class SeatServiceImpl implements SeatService {
     private Boolean reserved(SeatPO po, LocalDate date, Integer timeQuantum) {
         QueryWrapper<ReservationInfoPO> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("seat_id", po.getId());
-        queryWrapper.ge("reservation_date", date);
-        queryWrapper.ge("time_quantum", timeQuantum);
+        queryWrapper.eq("reservation_date", date);
+        queryWrapper.eq("time_quantum", timeQuantum);
 
         List<ReservationInfoPO> reservationInfoPos = reservationInfoDao.selectList(queryWrapper);
         return !reservationInfoPos.isEmpty();
