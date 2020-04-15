@@ -31,7 +31,6 @@
           </div>
           <div class="form-group col-md-4">
             <button class="btn btn-primary" onclick="selectStatistic()">查询</button>
-            <button class="btn btn-primary" type="reset">重置</button>
           </div>
           <div class="clearfix"></div>
         </div>

@@ -15,7 +15,7 @@
         <label for="password">Password</label>
         <input type="password" class="form-control" id="password">
     </div>
-    <button class="btn btn-primary" onclick="adminLogin()">Submit</button>
+    <button class="btn btn-primary" onclick="adminLogin()">登陆</button>
 </div>
 </body>
 <script src="${staticWebsite}js/jquery-1.11.1.min.js"></script>

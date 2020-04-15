@@ -21,44 +21,77 @@
     }
 %>
 
-<h1>新增座位</h1>
-<div>
-    <div class="form-group">
-        <label for="storey">楼层</label>
-        <input type="text" class="form-control" id="storey" aria-describedby="emailHelp">
+    <h1>新增座位</h1>
+    <jsp:include page="../common/admin_navigator.jsp" />
+    <!-- 新增座位 -->
+    <div class="query-condition form-inline">
+        <div class="tab-row query-row">
+            <div class="form-group col-md-4 ">
+                <label for="storey">楼层：</label>
+                <input type="text" class="form-control" id="storey" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="roomNum">房间号：</label>
+                <input type="text" class="form-control" id="roomNum" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="seatNum">座位号：</label>
+                <input type="text" class="form-control" id="seatNum" aria-describedby="emailHelp">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="tab-row query-row">
+            <div class="form-group col-md-4 ">
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+                <button class="btn btn-primary" onclick="insertSeat()">新增</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="roomNum">房间号</label>
-        <input type="text" class="form-control" id="roomNum">
+    <hr>
+    <h1>查询座位</h1>
+    <!-- 查询条件 -->
+    <div class="query-condition form-inline">
+        <div class="tab-row query-row">
+            <div class="form-group col-md-4 ">
+                <label for="storey">楼层：</label>
+                <input type="text" class="form-control" id="selectStorey" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="roomNum">房间号：</label>
+                <input type="text" class="form-control" id="selectRoomNum" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="seatNum">座位号：</label>
+                <input type="text" class="form-control" id="selectSeatNum" aria-describedby="emailHelp">
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="tab-row query-row">
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+            </div>
+            <div class="form-group col-md-4">
+                <button class="btn btn-primary" onclick="adminSelectSeat()">查询</button>
+            </div>
+            <div class="clearfix"></div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="seatNum">座位号</label>
-        <input type="text" class="form-control" id="seatNum">
-    </div>
-    <button class="btn btn-primary" onclick="insertSeat()">Submit</button>
-</div>
-<hr>
 	<div id="wrapper">
         <div class="overlay"></div>
-        <jsp:include page="../common/admin_navigator.jsp" />
-        <!-- Page Content -->
         <div id="page-content-wrapper">
-          <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
-            <span class="hamb-top"></span>
-            <span class="hamb-middle"></span>
-            <span class="hamb-bottom"></span>
-          </button>
             <div class="container">
                 <h1>座位列表</h1>
                 <table id="table"></table>
                 <div class="page" id="page"></div>
             </div>
         </div>
-        <!-- /#page-content-wrapper -->
-
     </div>
-    <!-- /#wrapper -->
-	
+
 	<script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 	<script src="http://www.jq22.com/jquery/bootstrap-3.3.4.js"></script>
     <script src="${staticWebsite}js/table.js"></script>
@@ -93,33 +126,43 @@
 		});
     </script>
     <script>
-        new Table({
-            el: "#table", //装载Table的容器的id
-            ajaxData: { //ajax请求的参数
-                url: '${website}admin/listSeatInfoByCondition',
-                method: 'post',
-                queryParams: { //提交给后端的数据
-                    pageNum: 1, //当前页
-                    pageSize: 10 //每一页显示的内容条数
-                }
-            },
-            stripe: true,//表格是否条纹状样式
-            pagination: true,//表格是否分页
-            paginOpt: {//分页参数
-                id: 'page',//装载分页的容器的id
-                curPage: 1, //当前页
-                pagelistcount: 10,//每一页显示的内容条数
-                maxshowpageitem: 3,//最多显示的页码个数
-            },
-            sort:[0, 2],//静态排序的列
-            col: [//表的列，name：表头名称，value：数据对应后端的字段，link：是否有链接
-                { name: '楼层', value: 'storey'},
-                { name: '房间号', value: 'roomNum' },
-                { name: '座位号', value: 'seatNum' },
-                { name: '创建时间', value: 'createTime'},
-                { name: '操作', value: 'opt'}
-            ]
-        });
+        adminSelectSeat();
+        function adminSelectSeat() {
+            let selectStorey = $('#selectStorey').val();
+            let selectRoomNum = $('#selectRoomNum').val();
+            let selectSeatNum = $('#selectSeatNum').val();
+
+            new Table({
+                el: "#table", //装载Table的容器的id
+                ajaxData: { //ajax请求的参数
+                    url: '${website}admin/listSeatInfoByCondition',
+                    method: 'post',
+                    queryParams: { //提交给后端的数据
+                        pageNum: 1, //当前页
+                        pageSize: 10, //每一页显示的内容条数
+                        storey: selectStorey,
+                        roomNum: selectRoomNum,
+                        seatNum: selectSeatNum
+                    }
+                },
+                stripe: true,//表格是否条纹状样式
+                pagination: true,//表格是否分页
+                paginOpt: {//分页参数
+                    id: 'page',//装载分页的容器的id
+                    curPage: 1, //当前页
+                    pagelistcount: 10,//每一页显示的内容条数
+                    maxshowpageitem: 3,//最多显示的页码个数
+                },
+                sort:[0, 2],//静态排序的列
+                col: [//表的列，name：表头名称，value：数据对应后端的字段，link：是否有链接
+                    { name: '楼层', value: 'storey'},
+                    { name: '房间号', value: 'roomNum' },
+                    { name: '座位号', value: 'seatNum' },
+                    { name: '创建时间', value: 'createTime'},
+                    { name: '操作', value: 'opt'}
+                ]
+            });
+        }
 	</script>
 <script>
     function insertSeat() {

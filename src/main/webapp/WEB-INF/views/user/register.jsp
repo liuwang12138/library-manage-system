@@ -35,7 +35,6 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button class="btn btn-primary" data-dismiss="modal" onclick="register()">注册</button>
-                <button class="btn btn-primary" type="reset">重置</button>
             </div>
         </div>
     </div>

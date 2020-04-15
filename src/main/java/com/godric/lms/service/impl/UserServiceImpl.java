@@ -2,15 +2,14 @@ package com.godric.lms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.godric.lms.common.dto.ResultMessage;
-import com.godric.lms.common.enums.UserTypeEnum;
 import com.godric.lms.common.po.UserPO;
 import com.godric.lms.dao.UserDao;
 import com.godric.lms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -83,8 +82,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public IPage<UserPO> listAllUsers(Integer pageNum, Integer pageSize) {
+    public IPage<UserPO> listUserByCondition(String username, Integer userType, Integer pageNum, Integer pageSize) {
         QueryWrapper<UserPO> queryWrapper = new QueryWrapper<>();
+        if (StringUtils.isNotBlank(username)) {
+            queryWrapper.like("username", username);
+        }
+        if (Objects.nonNull(userType)) {
+            queryWrapper.eq("type", userType);
+        }
         queryWrapper.orderByDesc("create_time", "id");
         IPage<UserPO> page = new Page<>(pageNum, pageSize);
         return userDao.selectPage(page, queryWrapper);

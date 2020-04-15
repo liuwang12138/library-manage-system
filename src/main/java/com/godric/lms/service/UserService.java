@@ -10,7 +10,7 @@ public interface UserService {
 
     ResultMessage<UserPO> login(String username, String password);
 
-    IPage<UserPO> listAllUsers(Integer pageNum, Integer pageSize);
+    IPage<UserPO> listUserByCondition(String username, Integer userType, Integer pageNum, Integer pageSize);
 
     void delete(Integer id);
 

@@ -3,21 +3,17 @@ package com.godric.lms.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.*;
-import com.godric.lms.common.enums.TimeQuantum;
 import com.godric.lms.common.enums.UserTypeEnum;
-import com.godric.lms.common.po.BlacklistPO;
 import com.godric.lms.common.po.NoticePO;
 import com.godric.lms.common.po.SeatPO;
 import com.godric.lms.common.po.UserPO;
 import com.godric.lms.service.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -102,10 +98,12 @@ public class AdminController {
 
     // 用户的增删改查
     @ResponseBody
-    @PostMapping("listAllUsers")
-    public ResultMessage<List<UserDTO>> listAllUsers(Integer pageNum,
-                                                     Integer pageSize) {
-        IPage<UserPO> userPos = userService.listAllUsers(pageNum, pageSize);
+    @PostMapping("listUserByCondition")
+    public ResultMessage<List<UserDTO>> listUserByCondition(String username,
+                                                            Integer userType,
+                                                            Integer pageNum,
+                                                            Integer pageSize) {
+        IPage<UserPO> userPos = userService.listUserByCondition(username, userType, pageNum, pageSize);
 
         List<UserDTO> list = new ArrayList<>();
         userPos.getRecords().forEach(po -> {
@@ -203,10 +201,10 @@ public class AdminController {
     @ResponseBody
     @PostMapping("listSeatInfoByCondition")
     public ResultMessage<List<SeatDTO>> listSeatInfoByCondition(Integer storey,
-                                                               String roomNum,
-                                                               Integer seatNum,
-                                                               Integer pageNum,
-                                                               Integer pageSize) {
+                                                                String roomNum,
+                                                                Integer seatNum,
+                                                                Integer pageNum,
+                                                                Integer pageSize) {
         return seatService.listByCondition(storey, roomNum, seatNum, pageNum, pageSize);
     }
 
