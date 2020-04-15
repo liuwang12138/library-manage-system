@@ -21,78 +21,68 @@
     }
 %>
 
-<h1>新增管理员</h1>
-<div class="query-condition form-inline">
-    <div class="tab-row query-row">
-        <div class="form-group col-md-4 ">
-            <label for="username">用户名</label>
-            <input type="text" class="form-control" id="username" aria-describedby="emailHelp">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="realName">真实姓名：</label>
-            <input type="text" class="form-control" id="realName" aria-describedby="emailHelp">
-        </div>
-        <div class="form-group col-md-4">
-            <label for="phone">手机号：</label>
-            <input type="text" class="form-control" id="phone" aria-describedby="emailHelp">
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="tab-row query-row">
-        <div class="form-group col-md-4 ">
-        </div>
-        <div class="form-group col-md-4">
-        </div>
-        <div class="form-group col-md-4">
-            <button class="btn btn-primary" onclick="insertAdmin()">新增</button>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
-<hr>
-<h1>查询用户</h1>
-<div class="query-condition form-inline">
-    <div class="tab-row query-row">
-        <div class="form-group col-md-4 ">
-            <label for="selectUsername">用户名：</label>
-            <input type="text" class="form-control" id="selectUsername" aria-describedby="emailHelp">
-        </div>
-        <div class="form-group col-md-4">
-            <div class="form-group col-md-4">
-                <label for="selectUserType">用户类型：</label>
-                <select id="selectUserType" class="form-control">
-                    <option value="" selected>---请选择---</option>
-                    <option value="1">普通用户</option>
-                    <option value="2">管理员</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-group col-md-4">
-        </div>
-        <div class="clearfix"></div>
-    </div>
-    <div class="tab-row query-row">
-        <div class="form-group col-md-4 ">
-        </div>
-        <div class="form-group col-md-4">
-        </div>
-        <div class="form-group col-md-4">
-            <button class="btn btn-primary" onclick="selectUser()">查询</button>
-        </div>
-        <div class="clearfix"></div>
-    </div>
-</div>
 	<div id="wrapper">
         <div class="overlay"></div>
         <jsp:include page="../common/admin_navigator.jsp" />
         <!-- Page Content -->
         <div id="page-content-wrapper">
-          <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
-            <span class="hamb-top"></span>
-            <span class="hamb-middle"></span>
-            <span class="hamb-bottom"></span>
-          </button>
+            <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+            </button>
             <div class="container">
+                <h1>新增管理员</h1>
+                <div class="query-condition form-inline">
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4 ">
+                            <label for="username">用户名</label>
+                            <input type="text" class="form-control" id="username" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="realName">真实姓名：</label>
+                            <input type="text" class="form-control" id="realName" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="phone">手机号：</label>
+                            <input type="text" class="form-control" id="phone" aria-describedby="emailHelp">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4 ">
+                        </div>
+                        <div class="form-group col-md-4">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button class="btn btn-primary" onclick="insertAdmin()">新增</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <hr>
+                <h1>查询用户</h1>
+                <div class="query-condition form-inline">
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4 ">
+                            <label for="selectUsername">用户名：</label>
+                            <input type="text" class="form-control" id="selectUsername" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="selectUserType">用户类型：</label>
+                            <select id="selectUserType" class="form-control">
+                                <option value="" selected>---请选择---</option>
+                                <option value="1">普通用户</option>
+                                <option value="2">管理员</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button class="btn btn-primary" onclick="selectUser()">查询</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <hr>
                 <h1>用户列表</h1>
                 <table id="table"></table>
                 <div class="page" id="page"></div>

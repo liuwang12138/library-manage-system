@@ -21,70 +21,77 @@
     }
 %>
 
-    <h1>新增座位</h1>
-    <jsp:include page="../common/admin_navigator.jsp" />
-    <!-- 新增座位 -->
-    <div class="query-condition form-inline">
-        <div class="tab-row query-row">
-            <div class="form-group col-md-4 ">
-                <label for="storey">楼层：</label>
-                <input type="text" class="form-control" id="storey" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="roomNum">房间号：</label>
-                <input type="text" class="form-control" id="roomNum" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="seatNum">座位号：</label>
-                <input type="text" class="form-control" id="seatNum" aria-describedby="emailHelp">
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="tab-row query-row">
-            <div class="form-group col-md-4 ">
-            </div>
-            <div class="form-group col-md-4">
-            </div>
-            <div class="form-group col-md-4">
-                <button class="btn btn-primary" onclick="insertSeat()">新增</button>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
-    <hr>
-    <h1>查询座位</h1>
-    <!-- 查询条件 -->
-    <div class="query-condition form-inline">
-        <div class="tab-row query-row">
-            <div class="form-group col-md-4 ">
-                <label for="storey">楼层：</label>
-                <input type="text" class="form-control" id="selectStorey" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="roomNum">房间号：</label>
-                <input type="text" class="form-control" id="selectRoomNum" aria-describedby="emailHelp">
-            </div>
-            <div class="form-group col-md-4">
-                <label for="seatNum">座位号：</label>
-                <input type="text" class="form-control" id="selectSeatNum" aria-describedby="emailHelp">
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div class="tab-row query-row">
-            <div class="form-group col-md-4">
-            </div>
-            <div class="form-group col-md-4">
-            </div>
-            <div class="form-group col-md-4">
-                <button class="btn btn-primary" onclick="adminSelectSeat()">查询</button>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-    </div>
 	<div id="wrapper">
         <div class="overlay"></div>
         <div id="page-content-wrapper">
+            <button type="button" class="hamburger is-closed animated fadeInLeft" data-toggle="offcanvas">
+                <span class="hamb-top"></span>
+                <span class="hamb-middle"></span>
+                <span class="hamb-bottom"></span>
+            </button>
+
             <div class="container">
+                <h1>新增座位</h1>
+                <jsp:include page="../common/admin_navigator.jsp" />
+                <!-- 新增座位 -->
+                <div class="query-condition form-inline">
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4 ">
+                            <label for="storey">楼层：</label>
+                            <input type="text" class="form-control" id="storey" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="roomNum">房间号：</label>
+                            <input type="text" class="form-control" id="roomNum" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="seatNum">座位号：</label>
+                            <input type="text" class="form-control" id="seatNum" aria-describedby="emailHelp">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4 ">
+                        </div>
+                        <div class="form-group col-md-4">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button class="btn btn-primary" onclick="insertSeat()">新增</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <hr>
+                <h1>查询座位</h1>
+                <!-- 查询条件 -->
+                <div class="query-condition form-inline">
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4 ">
+                            <label for="storey">楼层：</label>
+                            <input type="text" class="form-control" id="selectStorey" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="roomNum">房间号：</label>
+                            <input type="text" class="form-control" id="selectRoomNum" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="seatNum">座位号：</label>
+                            <input type="text" class="form-control" id="selectSeatNum" aria-describedby="emailHelp">
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="tab-row query-row">
+                        <div class="form-group col-md-4">
+                        </div>
+                        <div class="form-group col-md-4">
+                        </div>
+                        <div class="form-group col-md-4">
+                            <button class="btn btn-primary" onclick="adminSelectSeat()">查询</button>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <hr>
                 <h1>座位列表</h1>
                 <table id="table"></table>
                 <div class="page" id="page"></div>

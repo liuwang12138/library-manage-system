@@ -21,19 +21,7 @@
     }
 %>
 
-<h1>新增公告</h1>
-<div>
-    <div class="form-group">
-        <label for="title">title</label>
-        <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
-    </div>
-    <div class="form-group">
-        <label for="content">content(不超过50字符)</label>
-        <input type="text" class="form-control" id="content">
-    </div>
-    <button class="btn btn-primary" onclick="insertNotice()">Submit</button>
-</div>
-<hr>
+
 	<div id="wrapper">
         <div class="overlay"></div>
         <jsp:include page="../common/admin_navigator.jsp" />
@@ -45,6 +33,19 @@
             <span class="hamb-bottom"></span>
           </button>
             <div class="container">
+                <h1>新增公告</h1>
+                <div>
+                    <div class="form-group">
+                        <label for="title">标题：</label>
+                        <input type="text" class="form-control" id="title" aria-describedby="emailHelp">
+                    </div>
+                    <div class="form-group">
+                        <label for="content">内容(不超过500字符)：</label>
+                        <textarea class="form-control" id="content" rows="3"></textarea>
+                    </div>
+                    <button class="btn btn-primary" onclick="insertNotice()">添加</button>
+                </div>
+                <hr>
                 <h1>公告列表</h1>
                 <table id="table"></table>
                 <div class="page" id="page"></div>

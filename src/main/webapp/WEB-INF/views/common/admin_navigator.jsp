@@ -5,7 +5,7 @@
     <ul class="nav sidebar-nav">
         <li class="sidebar-brand">
             <a href="#">
-               欢迎您，<br><%=session.getAttribute("username")%>
+               <%=session.getAttribute("username")%>
             </a>
         </li>
         <c:if test="${sessionScope.user == 'admin'}">
