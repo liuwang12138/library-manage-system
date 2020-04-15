@@ -1,34 +1,15 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : godric
- Source Server Type    : MySQL
- Source Server Version : 80019
- Source Host           : 120.27.242.116:3306
- Source Schema         : library
-
- Target Server Type    : MySQL
- Target Server Version : 80019
- File Encoding         : 65001
-
- Date: 15/04/2020 15:48:28
-*/
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
 -- ----------------------------
 -- Table structure for blacklist
 -- ----------------------------
 DROP TABLE IF EXISTS `blacklist`;
 CREATE TABLE `blacklist`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
-  `user_id` int(0) NOT NULL COMMENT '用户id',
-  `deadline` datetime(0) NOT NULL COMMENT '截止时间',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `deadline` datetime NOT NULL COMMENT '截止时间',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB ;
 
 -- ----------------------------
 -- Records of blacklist
@@ -43,14 +24,14 @@ INSERT INTO `blacklist` VALUES (4, 4, '2020-04-22 22:54:25', '2020-04-13 22:54:2
 -- ----------------------------
 DROP TABLE IF EXISTS `notice`;
 CREATE TABLE `notice`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
-  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标题',
-  `content` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '内容',
-  `sort` int(0) NOT NULL COMMENT '排序字段',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
+  `title` varchar(50) NOT NULL COMMENT '标题',
+  `content` varchar(500) NOT NULL COMMENT '内容',
+  `sort` int(2) NOT NULL COMMENT '排序字段',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of notice
@@ -67,16 +48,16 @@ INSERT INTO `notice` VALUES (22, 'lj is pig', 'lj is piglj is piglj is pig', 6, 
 -- ----------------------------
 DROP TABLE IF EXISTS `reservation_info`;
 CREATE TABLE `reservation_info`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
-  `user_id` int(0) NOT NULL COMMENT '用户id',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
   `reservation_date` date NOT NULL COMMENT '预约日期',
-  `time_quantum` tinyint(0) NOT NULL COMMENT '时间段：1 - 8:00-12:00，2 - 12:00-17:00，3-17:00-22:00',
-  `seat_id` int(0) NOT NULL COMMENT '座位id',
-  `status` tinyint(0) NOT NULL DEFAULT 1 COMMENT '1-待签到，2-签到待审核，3-待签退/暂时签退，4-待暂签退审核，5-已暂时签退，待回，6-暂时签回待审核，7-签退待审核，8-签退已审核',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `time_quantum` tinyint(2) NOT NULL COMMENT '时间段：1 - 8:00-12:00，2 - 12:00-17:00，3-17:00-22:00',
+  `seat_id` int(11) NOT NULL COMMENT '座位id',
+  `status` tinyint(2) NOT NULL DEFAULT 1 COMMENT '1-待签到，2-签到待审核，3-待签退/暂时签退，4-待暂签退审核，5-已暂时签退，待回，6-暂时签回待审核，7-签退待审核，8-签退已审核',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of reservation_info
@@ -97,14 +78,14 @@ INSERT INTO `reservation_info` VALUES (57, 15, '2020-04-16', 1, 2, 1, '2020-04-1
 -- ----------------------------
 DROP TABLE IF EXISTS `seat`;
 CREATE TABLE `seat`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
-  `storey` tinyint(0) NOT NULL COMMENT '楼层：1，2，3，4，5',
-  `room_num` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '自习室房间号',
-  `seat_num` tinyint(0) NOT NULL COMMENT '座位号：1，2，3，...，30',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
+  `storey` tinyint(5) NOT NULL COMMENT '楼层：1，2，3，4，5',
+  `room_num` varchar(10) NOT NULL COMMENT '自习室房间号',
+  `seat_num` tinyint(5) NOT NULL COMMENT '座位号：1，2，3，...，30',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 154 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of seat
@@ -266,15 +247,15 @@ INSERT INTO `seat` VALUES (154, 6, '601', 1, '2020-04-15 15:09:16', '2020-04-15 
 -- ----------------------------
 DROP TABLE IF EXISTS `sign_info`;
 CREATE TABLE `sign_info`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
-  `user_id` int(0) NOT NULL COMMENT '用户id',
-  `status` tinyint(0) NOT NULL DEFAULT 1 COMMENT '状态：1-待审核，2-已审核',
-  `type` tinyint(0) NOT NULL COMMENT '1-签到，2-临时签退，3-临时签退回馆，4-签退',
-  `reservation_id` int(0) NOT NULL COMMENT '预约id',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
+  `user_id` int(11) NOT NULL COMMENT '用户id',
+  `status` tinyint(2) NOT NULL DEFAULT 1 COMMENT '状态：1-待审核，2-已审核',
+  `type` tinyint(2) NOT NULL COMMENT '1-签到，2-临时签退，3-临时签退回馆，4-签退',
+  `reservation_id` int(11) NOT NULL COMMENT '预约id',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of sign_info
@@ -289,18 +270,18 @@ INSERT INTO `sign_info` VALUES (21, 1, 1, 4, 46, '2020-04-14 15:37:37', '2020-04
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`  (
-  `id` int(0) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
-  `card_num` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户卡号：随机生成，年月日时分秒+随机四位数',
-  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密码',
-  `real_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '真实姓名',
-  `phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '手机号',
-  `type` tinyint(0) NOT NULL COMMENT '1-普通用户, 2-common admin',
-  `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '唯一主键',
+  `card_num` varchar(20) NOT NULL COMMENT '用户卡号：随机生成，年月日时分秒+随机四位数',
+  `username` varchar(50) NOT NULL COMMENT '用户名',
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `real_name` varchar(50) NOT NULL COMMENT '真实姓名',
+  `phone` varchar(20) NOT NULL COMMENT '手机号',
+  `type` tinyint(2) NOT NULL COMMENT '1-普通用户, 2-common admin',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `card_num`(`card_num`) USING BTREE COMMENT '卡号不能相同'
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB;
 
 -- ----------------------------
 -- Records of user
@@ -318,4 +299,3 @@ INSERT INTO `user` VALUES (13, '202004121532572149', 'yuyuyu', 'lll', '李四', 
 INSERT INTO `user` VALUES (14, '202004132324016735', 'admin1', '123456', '飞机迪斯科', '222', 2, '2020-04-13 23:24:00', '2020-04-13 23:24:00');
 INSERT INTO `user` VALUES (15, '202004142328469488', 'dundongdoufu', '111111', '炖冻豆腐', '1323232323', 1, '2020-04-14 23:28:45', '2020-04-14 23:28:45');
 
-SET FOREIGN_KEY_CHECKS = 1;
