@@ -82,6 +82,7 @@
 
         if (newPassword != confirmPassword) {
             alert("两次输入密码不一致，请检查后重试");
+            return;
         }
         $.ajax({
             type: 'post',
