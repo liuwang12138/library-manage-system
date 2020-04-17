@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="${staticWebsite}css/table.css">
 </head>
 <body>
+<%
+    if (request.getAttribute("blackOpt") != null) {
+%>
+<script>
+    alert("${blackOpt}");
+</script>
+<%
+    }
+%>
 	<div id="wrapper">
         <div class="overlay"></div>
         <jsp:include page="../common/admin_navigator.jsp" />
@@ -88,7 +97,8 @@
             col: [//表的列，name：表头名称，value：数据对应后端的字段，link：是否有链接
                 { name: '用户名', value: 'username'},
                 { name: '截止时间', value: 'deadline'},
-                { name: '创建时间', value: 'createTime'}
+                { name: '创建时间', value: 'createTime'},
+                { name: '操作', value: 'opt'}
             ]
         });
 	</script>

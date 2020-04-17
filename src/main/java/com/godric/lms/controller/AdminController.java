@@ -250,6 +250,14 @@ public class AdminController {
         return blacklistService.listBlack(pageNum, pageSize);
     }
 
+    @GetMapping("delBlackById")
+    public String delBlackById(Integer id,
+                               HttpServletRequest request) {
+        blacklistService.delById(id);
+        request.setAttribute("blackOpt", "删除成功");
+        return "admin/blacklist";
+    }
+
     @Autowired
     SignInfoService signInfoService;
 

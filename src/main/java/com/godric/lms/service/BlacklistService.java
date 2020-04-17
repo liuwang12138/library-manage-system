@@ -18,4 +18,5 @@ public interface BlacklistService {
 
     ResultMessage<List<BlacklistDTO>> listBlack(Integer pageNum, Integer pageSize);
 
+    void delById(Integer id);
 }

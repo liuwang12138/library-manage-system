@@ -3,6 +3,7 @@ package com.godric.lms.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.godric.lms.common.constants.LmsConstants;
 import com.godric.lms.common.dto.BlacklistDTO;
 import com.godric.lms.common.dto.ReservationInfoDTO;
 import com.godric.lms.common.dto.ResultMessage;
@@ -97,6 +98,7 @@ public class BlacklistServiceImpl implements BlacklistService {
             dto.setCreateTime(po.getCreateTime());
             UserPO user = userDao.selectById(po.getUserId());
             dto.setUsername(user == null ? "" : user.getUsername());
+            dto.setOpt("<a href=\"" + LmsConstants.website + "admin/delBlackById?id=" + po.getId() + "\">删除</a>");
 
             list.add(dto);
         });
@@ -104,4 +106,8 @@ public class BlacklistServiceImpl implements BlacklistService {
         return ResultMessage.success(list, (int)page.getTotal());
     }
 
+    @Override
+    public void delById(Integer id) {
+        blacklistDao.deleteById(id);
+    }
 }
